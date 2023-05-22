@@ -18,8 +18,15 @@ export default async (request: Request, context: Context) => {
 `
 
 export const onPreBuild = function({ netlifyConfig }) {
+
+  // Add headers
+  netlifyConfig.headers.push({
+    for: "/*",
+    values: { 'Content-Security-Policy': "script-src 'nonce-a8s0dbfa0s8d7b'" },
+  });
+
   // Add edge function
-  const edgeFunction = { path: '/', function: ef }
+  const edgeFunction = { path: '/*', function: ef }
   if (netlifyConfig.edge_functions) {
     netlifyConfig.edge_functions.push(edgeFunction)
   } else {
