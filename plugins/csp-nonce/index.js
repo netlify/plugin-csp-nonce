@@ -1,5 +1,23 @@
 // index.js
 
+const fn = `
+exports.handler = async (event) => {
+  try {
+     const { 'csp-report': cspReport } = JSON.parse(event.body);
+     if (cspReport) {
+       // eslint-disable-next-line no-console
+       console.log(cspReport);
+       console.log(JSON.stringify(cspReport));
+     }
+   } catch (err) {
+     // ...the sound of silence
+  }
+  return {
+    statusCode: 200,
+  };
+};
+`
+
 const ef = `
 import { Context } from "netlify:edge";
 
@@ -25,8 +43,16 @@ export const onPreBuild = function({ netlifyConfig }) {
     values: { 'Content-Security-Policy': "script-src 'nonce-a8s0dbfa0s8d7b'" },
   });
 
+  // Add function
+  const func = { path: '/beep', function: fn }
+  if (netlifyConfig.functions) {
+    netlifyConfig.functions.push(func)
+  } else {
+    netlifyConfig.functions = [func]
+  }
+
   // Add edge function
-  const edgeFunction = { path: '/*', function: ef }
+  const edgeFunction = { path: '/boop', function: ef }
   if (netlifyConfig.edge_functions) {
     netlifyConfig.edge_functions.push(edgeFunction)
   } else {
