@@ -9,5 +9,14 @@
   <script>
     document.write('<p>Script executed successfully!</p>');
   </script>
-  </body>
+  <script class="testing" data-whatever="sup">
+    document.write('<p>This script tag has some HTML attributes on it!</p>');
+  </script>
+  <script>
+    const el = document.createElement('script')
+    el.innerText = "document.write('<p>This paragraph was injected dynamically!</p>');"
+    document.body.appendChild(el)
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+</body>
 </html>

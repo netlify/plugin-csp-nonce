@@ -1,12 +1,10 @@
-// index.js
-
 export const onPreBuild = async ({ netlifyConfig, utils }) => {
-  // console.log(netlifyConfig)
-
-  let dir = netlifyConfig.build.edge_functions
+  let dir = netlifyConfig.build.edge_functions;
   if (!dir) {
-    dir = './netlify/edge-functions'
-    await utils.run.command(`mkdir -p ${dir}`)
+    dir = "./netlify/edge-functions";
+    await utils.run.command(`mkdir -p ${dir}`);
   }
-  await utils.run.command(`cp ./plugins/csp-nonce/edge-function.ts ${dir}/__csp-nonce.ts`)
-}
+  await utils.run.command(
+    `cp ./plugins/csp-nonce/edge-function.ts ${dir}/__csp-nonce.ts`
+  );
+};

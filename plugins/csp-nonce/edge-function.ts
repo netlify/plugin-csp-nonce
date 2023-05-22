@@ -2,8 +2,12 @@ import { cryptoRandomString } from "https://deno.land/x/crypto_random_string@1.0
 import { Config, Context } from "netlify:edge";
 
 export default async (request: Request, context: Context) => {
-  console.log(request.headers);
   const response = await context.next();
+
+  console.log(response.headers);
+  if (!response.headers.get("Content-Type").startsWith("text/html")) {
+    return new Response(response);
+  }
 
   const nonce = cryptoRandomString({ length: 16, type: "alphanumeric" });
 
@@ -13,7 +17,10 @@ export default async (request: Request, context: Context) => {
   );
   const page = await response.text();
 
-  const updatedPage = page.replace(/<script>/gi, `<script nonce="${nonce}">`);
+  const updatedPage = page.replace(
+    /<script([^>]*)>/gi,
+    `<script$1 nonce="${nonce}">`
+  );
   return new Response(updatedPage, response);
 };
 
