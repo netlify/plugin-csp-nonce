@@ -12,7 +12,7 @@ const handler = async (request: Request, context: Context) => {
   const response = await context.next();
 
   // for debugging which routes use this edge function
-  response.headers.set("x-nf-debug-edge-function", "csp-nonce");
+  response.headers.set("x-debug-edge-function", "csp-nonce");
 
   // html only
   if (
