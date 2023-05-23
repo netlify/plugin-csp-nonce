@@ -1,18 +1,33 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+// @ts-expect-error
 import { cryptoRandomString } from "https://deno.land/x/crypto_random_string@1.0.0/mod.ts";
-import { Config, Context } from "netlify:edge";
+// @ts-expect-error
+import type { Config, Context } from "netlify:edge";
 
 // TODO: should be able to set CSP / CSP-Report-Only
 const HEADER = "content-security-policy";
 
-export default async (request: Request, context: Context) => {
+const handler = async (request: Request, context: Context) => {
   const response = await context.next();
 
-  if (!response.headers.get("content-type").startsWith("text/html")) {
-    return new Response(response);
+  // for debugging which routes use this edge function
+  response.headers.set("x-nf-debug-edge-function", "csp-nonce");
+
+  // html only
+  if (
+    !request.headers.get("accept")?.startsWith("text/html") ||
+    !response.headers.get("content-type").startsWith("text/html")
+  ) {
+    return response;
   }
 
   const nonce = cryptoRandomString({ length: 16, type: "alphanumeric" });
-  const value = `script-src 'nonce-${nonce}' 'strict-dynamic'`;
+  // `'strict-dynamic'` allows scripts to be loaded from trusted scripts
+  // when `'strict-dynamic'` is present, `'unsafe-inline' 'self' https: http:` is ignored by browsers
+  // `'unsafe-inline' 'self' https: http:` is a compat check for browsers that don't support `strict-dynamic`
+  // https://content-security-policy.com/strict-dynamic/
+  const value = `script-src 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' 'self' https: http:`;
 
   const csp = response.headers.get(HEADER);
   if (csp) {
@@ -26,9 +41,12 @@ export default async (request: Request, context: Context) => {
         : // otherwise prepend value to the entire header
           `${value};${csp}`
     );
+    if (!csp.includes("report-uri")) {
+      // TODO: add report-uri directive
+    }
   } else {
-    // TODO: add report-uri directive
     response.headers.set(HEADER, value);
+    // TODO: add report-uri directive
   }
 
   const page = await response.text();
@@ -40,5 +58,9 @@ export default async (request: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: "/",
+  // how exclusive should we get here?
+  // should this be a config option?
+  path: ["/*", "/!(access-control)/*"],
 };
+
+export default handler;
