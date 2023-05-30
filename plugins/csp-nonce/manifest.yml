@@ -1,1 +1,11 @@
-name: netlify-csp-nonce
+name: netlify-build-plugin-csp-nonce
+inputs:
+  - name: reportOnly
+    description: When true, uses the Content-Security-Policy-Report-Only header instead of the Content-Security-Policy header.
+    default: true
+  - name: path
+    description: The glob expressions of path(s) that should invoke the CSP nonce edge function. Can be a string or array of strings.
+    default: "/*"
+  - name: excludedPath
+    description: The glob expressions of path(s) that *should not* invoke the CSP nonce edge function. Must be an array of strings. This value gets spread with common non-html filetype extensions (*.css, *.js, *.svg, etc)
+    default: []
