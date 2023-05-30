@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Using CSP Nonces on Script Tags</title>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>Using CSP Nonces on Script Tags</h1>
+  <p>This is a simple demonstration of using nonces in script tags.</p>
+  <script>
+    document.write('<p>Script executed successfully!</p>');
+  </script>
+  <script class="testing" data-whatever="sup">
+    document.write('<p>This script tag has some HTML attributes on it!</p>');
+  </script>
+  <script>
+    const el = document.createElement('script')
+    el.innerText = "document.write('<p>This paragraph was injected dynamically!</p>');"
+    document.body.appendChild(el)
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+</body>
+</html>
