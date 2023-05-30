@@ -11,7 +11,7 @@ jobs:
         id: release
         with:
           release-type: node
-          package-name: test-release-please
+          package-name: "@netlify/plugin-csp-nonce"
       # The logic below handles the npm publication:
       - uses: actions/checkout@v2
         # these if statements ensure that a publication only occurs when
@@ -19,8 +19,8 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
         if: ${{ steps.release.outputs.release_created }}
       - run: npm ci
         if: ${{ steps.release.outputs.release_created }}
