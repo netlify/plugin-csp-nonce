@@ -2,6 +2,7 @@ import fs, { copyFileSync } from "fs";
 
 /* eslint-disable no-console */
 export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
+  console.log(`  ${process.cwd()}`);
   const config = JSON.stringify(inputs, null, 2);
 
   const functionsDir = netlifyConfig.build.functions || "./netlify/functions";
@@ -9,7 +10,7 @@ export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
   await utils.run.command(`mkdir -p ${functionsDir}`);
   console.log(`  Copying function to ${functionsDir}...`);
   copyFileSync(
-    `./src/files/__csp-violations.ts`,
+    `./files/__csp-violations.ts`,
     `${functionsDir}/__csp-violations.ts`
   );
 
@@ -18,10 +19,7 @@ export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
   // make the directory in case it actually doesn't exist yet
   await utils.run.command(`mkdir -p ${edgeFunctionsDir}`);
   console.log(`  Copying edge function to ${edgeFunctionsDir}...`);
-  copyFileSync(
-    `./src/files/__csp-nonce.ts`,
-    `${edgeFunctionsDir}/__csp-nonce.ts`
-  );
+  copyFileSync(`./files/__csp-nonce.ts`, `${edgeFunctionsDir}/__csp-nonce.ts`);
   console.log(`  Copying config inputs to ${edgeFunctionsDir}...`);
   fs.writeFileSync(`${edgeFunctionsDir}/__csp-nonce-inputs.json`, config);
 
