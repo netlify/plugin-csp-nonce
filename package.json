@@ -12,7 +12,7 @@
   "type": "module",
   "files": [
     "index.js",
-    "manifest.yaml",
+    "manifest.yml",
     "src/*"
   ],
   "devDependencies": {
