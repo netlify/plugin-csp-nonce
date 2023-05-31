@@ -1,7 +1,14 @@
 import fs, { copyFileSync } from "fs";
 
 /* eslint-disable no-console */
-export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
+export const onPreBuild = async ({
+  constants,
+  inputs,
+  netlifyConfig,
+  utils,
+}) => {
+  console.log("constants", constants);
+  console.log("netlifyConfig", netlifyConfig);
   console.log(`  Current working directory: ${process.cwd()}`);
   const config = JSON.stringify(inputs, null, 2);
 
