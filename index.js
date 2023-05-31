@@ -1,8 +1,8 @@
+/* eslint-disable no-console */
 import fs, { copyFileSync } from "fs";
 
 const SITE_ID = "321a7119-6008-49a8-9d2f-e20602b1b349";
 
-/* eslint-disable no-console */
 export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
   console.log(`  Current working directory: ${process.cwd()}`);
   const config = JSON.stringify(inputs, null, 2);
