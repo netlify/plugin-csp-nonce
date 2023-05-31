@@ -2,6 +2,9 @@ on:
   push:
     branches:
       - main
+permissions:
+  contents: write
+  pull-requests: write
 name: release-please
 jobs:
   release-please:
@@ -11,7 +14,7 @@ jobs:
         id: release
         with:
           release-type: node
-          package-name: "@netlify/plugin-csp-nonce"
+          package-name: test-release-please
       # The logic below handles the npm publication:
       - uses: actions/checkout@v2
         # these if statements ensure that a publication only occurs when
