@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/netlify/csp-nonce/compare/v1.0.3...v1.0.4) (2023-05-31)
+
+
+### Bug Fixes
+
+* eslint-disable copied files ([#13](https://github.com/netlify/csp-nonce/issues/13)) ([d7ec3af](https://github.com/netlify/csp-nonce/commit/d7ec3af57446b9f50ad92ada00edfbfafcf82fdb))
+
 ## [1.0.3](https://github.com/netlify/csp-nonce/compare/v1.0.2...v1.0.3) (2023-05-31)
 
 
