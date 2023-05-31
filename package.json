@@ -11,6 +11,8 @@
   "license": "MIT",
   "type": "module",
   "files": [
+    "index.js",
+    "manifest.yaml",
     "src/*"
   ],
   "devDependencies": {
