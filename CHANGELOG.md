@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/netlify/csp-nonce/compare/v1.0.2...v1.0.3) (2023-05-31)
+
+
+### Bug Fixes
+
+* change base path based on SITE_ID ([#11](https://github.com/netlify/csp-nonce/issues/11)) ([590df27](https://github.com/netlify/csp-nonce/commit/590df27e4896cd389684733c6fe2a9e222840f24))
+
 ## [1.0.2](https://github.com/netlify/csp-nonce/compare/v1.0.1...v1.0.2) (2023-05-31)
 
 
