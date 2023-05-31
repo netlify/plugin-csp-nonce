@@ -1,32 +1,34 @@
 import fs, { copyFileSync } from "fs";
 
+const SITE_ID = "321a7119-6008-49a8-9d2f-e20602b1b349";
+
 /* eslint-disable no-console */
-export const onPreBuild = async ({
-  constants,
-  inputs,
-  netlifyConfig,
-  utils,
-}) => {
-  console.log("constants", constants);
-  console.log("netlifyConfig", netlifyConfig);
+export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
   console.log(`  Current working directory: ${process.cwd()}`);
   const config = JSON.stringify(inputs, null, 2);
+  const { build } = netlifyConfig;
+  const basePath =
+    build.environment.SITE_ID === SITE_ID
+      ? "./src"
+      : "./node_modules/@netlify/plugin-csp-nonce/src";
 
-  const functionsDir = netlifyConfig.build.functions || "./netlify/functions";
+  const functionsDir = build.functions || "./netlify/functions";
   // make the directory in case it actually doesn't exist yet
   await utils.run.command(`mkdir -p ${functionsDir}`);
   console.log(`  Copying function to ${functionsDir}...`);
   copyFileSync(
-    `./src/__csp-violations.ts`,
+    `${basePath}/__csp-violations.ts`,
     `${functionsDir}/__csp-violations.ts`
   );
 
-  const edgeFunctionsDir =
-    netlifyConfig.build.edge_functions || "./netlify/edge-functions";
+  const edgeFunctionsDir = build.edge_functions || "./netlify/edge-functions";
   // make the directory in case it actually doesn't exist yet
   await utils.run.command(`mkdir -p ${edgeFunctionsDir}`);
   console.log(`  Copying edge function to ${edgeFunctionsDir}...`);
-  copyFileSync(`./src/__csp-nonce.ts`, `${edgeFunctionsDir}/__csp-nonce.ts`);
+  copyFileSync(
+    `${basePath}/__csp-nonce.ts`,
+    `${edgeFunctionsDir}/__csp-nonce.ts`
+  );
   console.log(`  Copying config inputs to ${edgeFunctionsDir}...`);
   fs.writeFileSync(`${edgeFunctionsDir}/__csp-nonce-inputs.json`, config);
 
