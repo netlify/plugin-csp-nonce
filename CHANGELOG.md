@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/netlify/csp-nonce/compare/v1.0.1...v1.0.2) (2023-05-31)
+
+
+### Bug Fixes
+
+* typo with manifest.yaml instead of manifest.yml ([#9](https://github.com/netlify/csp-nonce/issues/9)) ([ba60aea](https://github.com/netlify/csp-nonce/commit/ba60aea14a3fb7d465bad0feae3a9e49a95686c8))
+
 ## [1.0.1](https://github.com/netlify/csp-nonce/compare/v1.0.0...v1.0.1) (2023-05-31)
 
 
