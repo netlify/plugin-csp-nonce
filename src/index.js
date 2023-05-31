@@ -9,7 +9,7 @@ export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
   await utils.run.command(`mkdir -p ${functionsDir}`);
   console.log(`  Copying function to ${functionsDir}...`);
   copyFileSync(
-    `./plugins/csp-nonce/files/__csp-violations.ts`,
+    `./src/files/__csp-violations.ts`,
     `${functionsDir}/__csp-violations.ts`
   );
 
@@ -19,7 +19,7 @@ export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
   await utils.run.command(`mkdir -p ${edgeFunctionsDir}`);
   console.log(`  Copying edge function to ${edgeFunctionsDir}...`);
   copyFileSync(
-    `./plugins/csp-nonce/files/__csp-nonce.ts`,
+    `./src/files/__csp-nonce.ts`,
     `${edgeFunctionsDir}/__csp-nonce.ts`
   );
   console.log(`  Copying config inputs to ${edgeFunctionsDir}...`);
