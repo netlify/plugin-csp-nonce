@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/netlify/csp-nonce/compare/v1.0.5...v1.0.6) (2023-06-01)
+
+
+### Bug Fixes
+
+* fix bug related to missing script tag ([#18](https://github.com/netlify/csp-nonce/issues/18)) ([7746bff](https://github.com/netlify/csp-nonce/commit/7746bffcd1043d3cd787ef346a2f0ecd29437c4a))
+
 ## [1.0.5](https://github.com/netlify/csp-nonce/compare/v1.0.4...v1.0.5) (2023-06-01)
 
 
