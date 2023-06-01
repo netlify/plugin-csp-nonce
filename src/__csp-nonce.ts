@@ -25,8 +25,10 @@ const handler = async (request: Request, context: Context) => {
 
   // html only
   if (
-    !request.headers.get("accept")?.startsWith("text/html") ||
-    !response.headers.get("content-type").startsWith("text/html")
+    !(
+      request.headers.get("accept")?.startsWith("text/html") &&
+      response.headers.get("content-type").startsWith("text/html")
+    )
   ) {
     return response;
   }
@@ -38,7 +40,6 @@ const handler = async (request: Request, context: Context) => {
   // https://content-security-policy.com/strict-dynamic/
   const rules = `'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' 'self' https: http:`;
   const scriptSrc = `script-src ${rules}`;
-  const styleSrc = `style-src ${rules}`;
   const reportUri = `report-uri /.netlify/functions/__csp-violations`;
 
   const csp = response.headers.get(header);
@@ -51,9 +52,7 @@ const handler = async (request: Request, context: Context) => {
         if (d.startsWith("script-src")) {
           return d.replace("script-src", scriptSrc);
         }
-        if (d.startsWith("style-src")) {
-          return d.replace("style-src", styleSrc);
-        }
+        // intentionally omit report-uri: theirs should take precedence
         return d;
       })
       .filter(Boolean);
@@ -61,26 +60,27 @@ const handler = async (request: Request, context: Context) => {
     if (!directives.find((d) => d.startsWith("script-src"))) {
       directives.push(scriptSrc);
     }
-    if (!directives.find((d) => d.startsWith("style-src"))) {
-      directives.push(styleSrc);
+    if (!directives.find((d) => d.startsWith("report-uri"))) {
+      directives.push(reportUri);
     }
     const value = directives.join("; ");
     response.headers.set(header, value);
   } else {
     // make a new ruleset of directives if no CSP present
-    const value = [scriptSrc, styleSrc, reportUri].join("; ");
+    const value = [scriptSrc, reportUri].join("; ");
     response.headers.set(header, value);
   }
 
   // time to do some regex magic
   const page = await response.text();
   const rewrittenPage = page.replace(
-    /<(script|style)([^>]*)>/gi,
-    `<$1$2 nonce="${nonce}">`
+    /<script([^>]*)>/gi,
+    `<$1 nonce="${nonce}">`
   );
   return new Response(rewrittenPage, response);
 };
 
+// Top 50 most common extensions (minus .html and .htm) according to Humio
 const excludedExtensions = [
   "aspx",
   "avif",
