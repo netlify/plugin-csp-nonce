@@ -1,6 +1,6 @@
 {
   "name": "@netlify/plugin-csp-nonce",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Use a nonce for the script-src and style-src directives of your Content Security Policy.",
   "main": "index.js",
   "repository": {
