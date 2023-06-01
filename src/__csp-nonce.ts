@@ -75,7 +75,7 @@ const handler = async (request: Request, context: Context) => {
   const page = await response.text();
   const rewrittenPage = page.replace(
     /<script([^>]*)>/gi,
-    `<$1 nonce="${nonce}">`
+    `<script$1 nonce="${nonce}">`
   );
   return new Response(rewrittenPage, response);
 };
