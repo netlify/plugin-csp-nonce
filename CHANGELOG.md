@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/netlify/csp-nonce/compare/v1.0.4...v1.0.5) (2023-06-01)
+
+
+### Bug Fixes
+
+* remove style-src directive checks ([#15](https://github.com/netlify/csp-nonce/issues/15)) ([42a2109](https://github.com/netlify/csp-nonce/commit/42a21092569ef3764fb98b5175a3e6fb9ab9ee1d))
+
 ## [1.0.4](https://github.com/netlify/csp-nonce/compare/v1.0.3...v1.0.4) (2023-05-31)
 
 
