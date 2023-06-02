@@ -1,2 +1,4 @@
 [[plugins]]
   package = "/"
+  [plugins.inputs]
+    reportOnly = false
