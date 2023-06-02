@@ -12,10 +12,17 @@
     <h1>Using CSP Nonces on Script Tags</h1>
     <p>This is a simple demonstration of using nonces in script tags.</p>
     <script>
-      document.write("<p>✅ Script tag without HTML attributes</p>");
+      document.write("<p>✅ Inline script without HTML attributes</p>");
     </script>
     <script class="testing" data-whatever="sup">
-      document.write("<p>✅ Script tag with HTML attributes</p>");
+      document.write("<p>✅ Inline script with HTML attributes</p>");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script>
+      // check that jquery was downloaded from CDN
+      if ($) {
+        document.write("<p>✅ Script tag with external src</p>");
+      }
     </script>
     <script>
       const el = document.createElement("script");
@@ -31,13 +38,6 @@
           "</scr" +
           "ipt>"
       );
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-    <script>
-      // check that jquery was downloaded from CDN
-      if ($) {
-        document.write("<p>✅ Script tag with external source</p>");
-      }
     </script>
     <script>
       var CHECKS_COUNT = 6;
