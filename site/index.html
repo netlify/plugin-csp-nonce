@@ -11,6 +11,9 @@
   <body>
     <h1>Using CSP Nonces on Script Tags</h1>
     <p>This is a simple demonstration of using nonces in script tags.</p>
+    <a href="#" onclick="alert('ohnoes')">
+      Clicking this should not trigger an alert
+    </a>
     <script>
       document.write("<p>✅ Inline script without HTML attributes</p>");
     </script>
@@ -35,7 +38,7 @@
       document.write(
         "<scr" +
           "ipt>" +
-          "document.write('<p>❌ Script tag from <code>document.write</code> has executed!</p>');" +
+          "document.write('<div>❌ Script tag from <code>document.write</code> has executed!</div>');" +
           "</scr" +
           "ipt>"
       );
@@ -45,7 +48,7 @@
       if (document.getElementsByTagName("p").length === CHECKS_COUNT) {
         document.write("<p>✅ Test suite has succeeded</p>");
       } else {
-        document.write("<p>❌ Test suite has failed</p>");
+        document.write("<div>❌ Test suite has failed</div>");
       }
     </script>
   </body>
