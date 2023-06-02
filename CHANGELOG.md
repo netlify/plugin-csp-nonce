@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.7](https://github.com/netlify/csp-nonce/compare/v1.0.6...v1.0.7) (2023-06-02)
+
+
+### Bug Fixes
+
+* add input for unsafe-eval, defaulting to true ([#25](https://github.com/netlify/csp-nonce/issues/25)) ([eebf608](https://github.com/netlify/csp-nonce/commit/eebf60881465843914ff19687a58cc107dedf544))
+* allow curl to receive the nonce ([#22](https://github.com/netlify/csp-nonce/issues/22)) ([b27d029](https://github.com/netlify/csp-nonce/commit/b27d029ea0a2381cdfb8bf10e07a51a16ed2f487))
+
 ## [1.0.6](https://github.com/netlify/csp-nonce/compare/v1.0.5...v1.0.6) (2023-06-01)
 
 
