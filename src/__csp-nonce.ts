@@ -24,12 +24,11 @@ const handler = async (request: Request, context: Context) => {
   response.headers.set("x-debug-csp-nonce", "invoked");
 
   // html only
-  if (
-    !(
-      request.headers.get("accept")?.startsWith("text/html") &&
-      response.headers.get("content-type").startsWith("text/html")
-    )
-  ) {
+  const isHTML =
+    request.headers.get("accept")?.startsWith("text/html") &&
+    response.headers.get("content-type").startsWith("text/html");
+  const isCurl = request.headers.get("user-agent")?.startsWith("curl/");
+  if (!(isHTML || isCurl)) {
     return response;
   }
 
