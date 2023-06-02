@@ -7,5 +7,6 @@ This package deploys an edge function to add a header and transform the HTML res
 ## Configuration options
 
 - `reportOnly`: When true, uses the Content-Security-Policy-Report-Only header instead of the Content-Security-Policy header.
+- `unsafeEval`: When true, adds 'unsafe-eval' to CSP for easier adoption. Set to false to have a safer policy if your code and code dependencies does not use eval().
 - `path`: The glob expressions of path(s) that should invoke the CSP nonce edge function. Can be a string or array of strings.
 - `excludedPath`: The glob expressions of path(s) that _should not_ invoke the CSP nonce edge function. Must be an array of strings. This value gets spread with common non-html filetype extensions (_.css, _.js, \*.svg, etc)
