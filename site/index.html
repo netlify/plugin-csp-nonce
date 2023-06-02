@@ -1,27 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Using CSP Nonces on Script Tags</title>
-  <style>
-    body {
-      font-family: sans-serif;
-    }
-  </style>
-</head>
-<body>
-  <h1>Using CSP Nonces on Script Tags</h1>
-  <p>This is a simple demonstration of using nonces in script tags.</p>
-  <script>
-    document.write('<p>Script executed successfully!</p>');
-  </script>
-  <script class="testing" data-whatever="sup">
-    document.write('<p>This script tag has some HTML attributes on it!</p>');
-  </script>
-  <script>
-    const el = document.createElement('script')
-    el.innerText = "document.write('<p>This paragraph was injected dynamically!</p>');"
-    document.body.appendChild(el)
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-</body>
+  <head>
+    <title>Using CSP Nonces on Script Tags</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Using CSP Nonces on Script Tags</h1>
+    <p>This is a simple demonstration of using nonces in script tags.</p>
+    <script>
+      document.write("<p>✅ Script tag without HTML attributes</p>");
+    </script>
+    <script class="testing" data-whatever="sup">
+      document.write("<p>✅ Script tag with HTML attributes</p>");
+    </script>
+    <script>
+      const el = document.createElement("script");
+      el.innerText =
+        "document.write('<p>✅ Script tag from <code>document.createElement(\"script\")</code></p>');";
+      document.body.appendChild(el);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script>
+      // check that jquery was downloaded from CDN
+      if ($) {
+        document.write("<p>✅ Script tag with external source</p>");
+      }
+    </script>
+    <script>
+      var CHECKS_COUNT = 5;
+      if (document.getElementsByTagName("p").length === CHECKS_COUNT) {
+        document.write("<p>✅ Test suite has succeeded</p>");
+      } else {
+        document.write("<p>❌ Test suite has failed</p>");
+      }
+    </script>
+  </body>
 </html>
