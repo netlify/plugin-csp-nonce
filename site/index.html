@@ -31,16 +31,17 @@
       document.body.appendChild(el);
     </script>
     <script>
+      // if the nonce works, then this shouldn't run!
       document.write(
         "<scr" +
           "ipt>" +
-          "document.write('<p>✅ Script tag from <code>document.write</code></p>');" +
+          "document.write('<p>❌ Script tag from <code>document.write</code> has executed!</p>');" +
           "</scr" +
           "ipt>"
       );
     </script>
     <script>
-      var CHECKS_COUNT = 6;
+      var CHECKS_COUNT = 5;
       if (document.getElementsByTagName("p").length === CHECKS_COUNT) {
         document.write("<p>✅ Test suite has succeeded</p>");
       } else {
