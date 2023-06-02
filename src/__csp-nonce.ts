@@ -1,8 +1,8 @@
 /* eslint-disable */
 // @ts-expect-error
-import { cryptoRandomString } from "https://deno.land/x/crypto_random_string@1.0.0/mod.ts";
-// @ts-expect-error
 import type { Config, Context } from "netlify:edge";
+// @ts-expect-error
+import { randomBytes } from "node:crypto";
 
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
 
@@ -24,15 +24,18 @@ const handler = async (request: Request, context: Context) => {
   response.headers.set("x-debug-csp-nonce", "invoked");
 
   // html only
-  const isHTML =
-    request.headers.get("accept")?.startsWith("text/html") &&
-    response.headers.get("content-type").startsWith("text/html");
   const isCurl = request.headers.get("user-agent")?.startsWith("curl/");
-  if (!(isHTML || isCurl)) {
+  const isHTMLRequest =
+    request.headers.get("accept")?.startsWith("text/html") || isCurl;
+  const isHTMLResponse = response.headers
+    .get("content-type")
+    .startsWith("text/html");
+  const shouldTransformResponse = isHTMLRequest && isHTMLResponse;
+  if (!shouldTransformResponse) {
     return response;
   }
 
-  const nonce = cryptoRandomString({ length: 16, type: "alphanumeric" });
+  const nonce = randomBytes(24).toString("base64");
   // `'strict-dynamic'` allows scripts to be loaded from trusted scripts
   // when `'strict-dynamic'` is present, `'unsafe-inline' 'self' https: http:` is ignored by browsers
   // `'unsafe-inline' 'self' https: http:` is a compat check for browsers that don't support `strict-dynamic`
