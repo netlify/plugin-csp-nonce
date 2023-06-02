@@ -3,6 +3,9 @@ inputs:
   - name: reportOnly
     description: When true, uses the Content-Security-Policy-Report-Only header instead of the Content-Security-Policy header.
     default: true
+  - name: unsafeEval
+    description: When true, adds 'unsafe-eval' to CSP for easier adoption. Set to false to have a safer policy if your code and code dependencies does not use eval().
+    default: true
   - name: path
     description: The glob expressions of path(s) that should invoke the CSP nonce edge function. Can be a string or array of strings.
     default: "/*"

@@ -8,6 +8,7 @@ import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
 
 type Params = {
   reportOnly: boolean;
+  unsafeEval: boolean;
   path: string | string[];
   excludedPath: string[];
 };
@@ -23,14 +24,15 @@ const handler = async (request: Request, context: Context) => {
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
 
-  // html only
+  // html/curl GETs only
+  const isGET = request.method?.toUpperCase() === "GET";
   const isCurl = request.headers.get("user-agent")?.startsWith("curl/");
   const isHTMLRequest =
     request.headers.get("accept")?.startsWith("text/html") || isCurl;
   const isHTMLResponse = response.headers
     .get("content-type")
     .startsWith("text/html");
-  const shouldTransformResponse = isHTMLRequest && isHTMLResponse;
+  const shouldTransformResponse = isGET && isHTMLRequest && isHTMLResponse;
   if (!shouldTransformResponse) {
     return response;
   }
@@ -40,8 +42,16 @@ const handler = async (request: Request, context: Context) => {
   // when `'strict-dynamic'` is present, `'unsafe-inline' 'self' https: http:` is ignored by browsers
   // `'unsafe-inline' 'self' https: http:` is a compat check for browsers that don't support `strict-dynamic`
   // https://content-security-policy.com/strict-dynamic/
-  const rules = `'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' 'self' https: http:`;
-  const scriptSrc = `script-src ${rules}`;
+  const rules = [
+    `'nonce-${nonce}'`,
+    `'strict-dynamic'`,
+    `'unsafe-inline'`,
+    params.unsafeEval && `'unsafe-eval'`,
+    `'self'`,
+    `https:`,
+    `http:`,
+  ].filter(Boolean);
+  const scriptSrc = `script-src ${rules.join(" ")}`;
   const reportUri = `report-uri /.netlify/functions/__csp-violations`;
 
   const csp = response.headers.get(header);
