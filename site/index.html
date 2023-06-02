@@ -23,6 +23,15 @@
         "document.write('<p>✅ Script tag from <code>document.createElement(\"script\")</code></p>');";
       document.body.appendChild(el);
     </script>
+    <script>
+      document.write(
+        "<scr" +
+          "ipt>" +
+          "document.write('<p>✅ Script tag from <code>document.write</code></p>');" +
+          "</scr" +
+          "ipt>"
+      );
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <script>
       // check that jquery was downloaded from CDN
@@ -31,7 +40,7 @@
       }
     </script>
     <script>
-      var CHECKS_COUNT = 5;
+      var CHECKS_COUNT = 6;
       if (document.getElementsByTagName("p").length === CHECKS_COUNT) {
         document.write("<p>✅ Test suite has succeeded</p>");
       } else {
