@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.8](https://github.com/netlify/csp-nonce/compare/v1.0.7...v1.0.8) (2023-06-05)
+
+
+### Bug Fixes
+
+* add report-uri config option ([#26](https://github.com/netlify/csp-nonce/issues/26)) ([a602df8](https://github.com/netlify/csp-nonce/commit/a602df806280ebae70a91d19affbb8f0b45176ee))
+* log unnecessary invocations ([#28](https://github.com/netlify/csp-nonce/issues/28)) ([c9a91c4](https://github.com/netlify/csp-nonce/commit/c9a91c44a84aec7804c32a1175549774e3c08956))
+
 ## [1.0.7](https://github.com/netlify/csp-nonce/compare/v1.0.6...v1.0.7) (2023-06-02)
 
 
