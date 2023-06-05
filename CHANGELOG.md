@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.1.0...v1.1.1) (2023-06-05)
+
+
+### Bug Fixes
+
+* actually make public ([#31](https://github.com/netlify/plugin-csp-nonce/issues/31)) ([6499e81](https://github.com/netlify/plugin-csp-nonce/commit/6499e813dac55d888aa77f99462013f178448252))
+
 ## [1.1.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.0.8...v1.1.0) (2023-06-05)
 
 
