@@ -1,11 +1,12 @@
 {
+  "private": false,
   "name": "@netlify/plugin-csp-nonce",
   "version": "1.0.8",
   "description": "Use a nonce for the script-src and style-src directives of your Content Security Policy.",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/netlify/csp-nonce.git"
+    "url": "git+https://github.com/netlify/plugin-csp-nonce.git"
   },
   "author": "Jason Barry <jb@netlify.com>",
   "license": "MIT",
@@ -19,9 +20,9 @@
     "prettier": "^2.8.8"
   },
   "bugs": {
-    "url": "https://github.com/netlify/csp-nonce/issues"
+    "url": "https://github.com/netlify/plugin-csp-nonce/issues"
   },
-  "homepage": "https://github.com/netlify/csp-nonce#readme",
+  "homepage": "https://github.com/netlify/plugin-csp-nonce#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   }
