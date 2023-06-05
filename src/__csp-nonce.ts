@@ -8,6 +8,7 @@ import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
 
 type Params = {
   reportOnly: boolean;
+  reportUri?: string;
   unsafeEval: boolean;
   path: string | string[];
   excludedPath: string[];
@@ -52,7 +53,9 @@ const handler = async (request: Request, context: Context) => {
     `http:`,
   ].filter(Boolean);
   const scriptSrc = `script-src ${rules.join(" ")}`;
-  const reportUri = `report-uri /.netlify/functions/__csp-violations`;
+  const reportUri = `report-uri ${
+    params.reportUri || "/.netlify/functions/__csp-violations"
+  }`;
 
   const csp = response.headers.get(header);
   if (csp) {

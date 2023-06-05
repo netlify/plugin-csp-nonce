@@ -1,12 +1,100 @@
 # @netlify/plugin-csp-nonce
 
-Use a nonce for the script-src and style-src directives of your Content Security Policy.
+Use a [nonce](https://content-security-policy.com/nonce/) for the `script-src` directive of your Content Security Policy (CSP) to help prevent [cross-site scripting (XSS)](https://developer.mozilla.org/en-US/docs/Web/Security/Types_of_attacks#cross-site_scripting_xss) attacks.
 
-This package deploys an edge function to add a header and transform the HTML response body, and a function to log CSP violations.
+This plugin deploys an edge function that adds a response header and transforms the HTML response body to contain a unique nonce on every request, along with an optional function to log CSP violations.
+
+Scripts that do not contain a matching `nonce` attribute, or that were not created from a trusted script (see [strict-dynamic](https://content-security-policy.com/strict-dynamic/)), will not be allowed to run.
+
+You can use this plugin whether or not your site already has a CSP in place. If your site already has a CSP, the nonce will merge with your existing directives.
+
+## Installation
+
+First, add the dependency:
+
+```
+npm i @netlify/plugin-csp-nonce
+```
+
+Then, include the plugin inside your `netlify.toml`: 
+
+```
+# netlify.toml
+[[plugins]]
+  package = "@netlify/plugin-csp-nonce"
+```
+
 
 ## Configuration options
 
-- `reportOnly`: When true, uses the Content-Security-Policy-Report-Only header instead of the Content-Security-Policy header.
-- `unsafeEval`: When true, adds 'unsafe-eval' to CSP for easier adoption. Set to false to have a safer policy if your code and code dependencies does not use eval().
-- `path`: The glob expressions of path(s) that should invoke the CSP nonce edge function. Can be a string or array of strings.
-- `excludedPath`: The glob expressions of path(s) that _should not_ invoke the CSP nonce edge function. Must be an array of strings. This value gets spread with common non-html filetype extensions (_.css, _.js, \*.svg, etc)
+Sample configuration: 
+
+```
+# netlify.toml
+[[plugins]]
+  package = "@netlify/plugin-csp-nonce"
+  [plugins.inputs]
+    reportOnly = false
+    excludedPath = [
+      "/api/*",
+      "**/*.bespoke.extension"
+    ]
+```
+
+#### `reportOnly` 
+*Default: `true`*. 
+
+When true, uses the `Content-Security-Policy-Report-Only` header instead of the `Content-Security-Policy` header. Setting `reportOnly` to `true` is useful for testing the CSP with real production traffic without actually blocking resources. Be sure to monitor your logging function to observe potential violations.
+
+#### `reportUri`
+*Default: `undefined`*.
+
+The relative or absolute URL to report any violations. If left undefined, violations are reported to the `__csp-violations` function, which this plugin deploys. If your site already has a `report-uri` directive defined in its CSP header, then that value will take precedence. 
+
+#### `unsafeEval`
+*Default: `true`.*
+
+When true, adds `'unsafe-eval'` to the CSP for easier adoption. Set to `false` to have a safer policy if your code and code dependencies does not use `eval()`.
+
+#### `path`
+*Default: `"/*"`.*
+
+The glob expressions of path(s) that should invoke the CSP nonce edge function. Can be a string or array of strings.
+
+#### `excludedPath`
+*Default: `[]`*
+
+The glob expressions of path(s) that _should not_ invoke the CSP nonce edge function. Must be an array of strings. This value gets spread with common non-html filetype extensions (`*.css`, `*.js`, `*.svg`, etc).
+
+
+## Debugging
+
+### Limiting edge function invocations
+
+By default, the edge function that inserts the nonce will be invoked on all requests whose path
+
+- does not begin with `/.netlify/`
+- does not end with common non-HTML filetype extensions
+
+To further limit invocations, add globs to the `excludedPath` configuration option that are specific to your site.
+
+Requests that invoke the nonce edge function will contain a `x-debug-csp-nonce: invoked` response header. Use this to determine if unwanted paths are invoking the edge function, and add those paths to the `excludedPath` array.
+
+### Not transforming as expected
+
+If your HTML does not contain the `nonce` attribute on the `<script>` tags that you expect, ensure that all of these criteria are met:
+
+- The request method is `GET`
+- The `accept` request header starts with `text/html`, or the `user-agent` request header starts with `curl/`
+- The `content-type` response header starts with `text/html`
+- The path of the request is satisfied by the `path` config option, and not included in the `excludedPath` config option
+
+### Quickly enabling and disabling
+
+You may want to quickly enable/disable the plugin while monitoring violation reports. You can do so without modifying code. 
+
+Simply set the `DISABLE_CSP_NONCE` environment variable to `true`, and your next deploy will skip running the plugin. Setting to `false` will re-enable the plugin. The environment variable needs to be scoped to `Builds`.
+
+
+
+

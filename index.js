@@ -18,25 +18,29 @@ export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
       ? "./src"
       : "./node_modules/@netlify/plugin-csp-nonce/src";
 
-  const functionsDir = build.functions || "./netlify/functions";
-  // make the directory in case it actually doesn't exist yet
-  await utils.run.command(`mkdir -p ${functionsDir}`);
-  console.log(`  Copying function to ${functionsDir}...`);
-  copyFileSync(
-    `${basePath}/__csp-violations.ts`,
-    `${functionsDir}/__csp-violations.ts`
-  );
-
   const edgeFunctionsDir = build.edge_functions || "./netlify/edge-functions";
   // make the directory in case it actually doesn't exist yet
   await utils.run.command(`mkdir -p ${edgeFunctionsDir}`);
-  console.log(`  Copying edge function to ${edgeFunctionsDir}...`);
+  console.log(`  Writing nonce edge function to ${edgeFunctionsDir}...`);
   copyFileSync(
     `${basePath}/__csp-nonce.ts`,
     `${edgeFunctionsDir}/__csp-nonce.ts`
   );
-  console.log(`  Copying config inputs to ${edgeFunctionsDir}...`);
   fs.writeFileSync(`${edgeFunctionsDir}/__csp-nonce-inputs.json`, config);
 
-  console.log(`  Complete.`);
+  // if no reportUri in config input, deploy function on site's behalf
+  if (!inputs.reportUri) {
+    const functionsDir = build.functions || "./netlify/functions";
+    // make the directory in case it actually doesn't exist yet
+    await utils.run.command(`mkdir -p ${functionsDir}`);
+    console.log(`  Writing violations logging function to ${functionsDir}...`);
+    copyFileSync(
+      `${basePath}/__csp-violations.ts`,
+      `${functionsDir}/__csp-violations.ts`
+    );
+  } else {
+    console.log(`  Using ${inputs.reportUri} as report-uri directive...`);
+  }
+
+  console.log(`  Done.`);
 };
