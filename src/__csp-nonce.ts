@@ -35,6 +35,8 @@ const handler = async (request: Request, context: Context) => {
     .startsWith("text/html");
   const shouldTransformResponse = isGET && isHTMLRequest && isHTMLResponse;
   if (!shouldTransformResponse) {
+    // @ts-expect-error
+    console.log(`Unnecessary invocation for ${request.path || request.url}`);
     return response;
   }
 
