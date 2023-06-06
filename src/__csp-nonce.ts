@@ -32,7 +32,7 @@ const handler = async (request: Request, context: Context) => {
     request.headers.get("accept")?.startsWith("text/html") || isCurl;
   const isHTMLResponse = response.headers
     .get("content-type")
-    .startsWith("text/html");
+    ?.startsWith("text/html");
   const shouldTransformResponse = isGET && isHTMLRequest && isHTMLResponse;
   if (!shouldTransformResponse) {
     // @ts-expect-error
