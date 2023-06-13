@@ -29,14 +29,15 @@ const handler = async (request: Request, context: Context) => {
   const isGET = request.method?.toUpperCase() === "GET";
   const isCurl = request.headers.get("user-agent")?.startsWith("curl/");
   const isHTMLRequest =
-    request.headers.get("accept")?.startsWith("text/html") || isCurl;
+    request.headers.get("accept")?.includes("text/html") ||
+    request.headers.get("sec-fetch-dest") === "document" ||
+    isCurl;
   const isHTMLResponse = response.headers
     .get("content-type")
     ?.startsWith("text/html");
   const shouldTransformResponse = isGET && isHTMLRequest && isHTMLResponse;
   if (!shouldTransformResponse) {
-    // @ts-expect-error
-    console.log(`Unnecessary invocation for ${request.path || request.url}`);
+    console.log(`Unnecessary invocation for ${request.url}`);
     return response;
   }
 
@@ -157,6 +158,7 @@ export const config: Config = {
     ...excludedExtensions.map((ext) => `**/*.${ext}`),
   ],
   handler,
+  onError: "bypass",
 };
 
 export default handler;
