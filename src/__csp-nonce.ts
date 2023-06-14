@@ -46,8 +46,8 @@ const handler = async (request: Request, context: Context) => {
   if (!!distribution) {
     const threshold =
       distribution.endsWith("%") || parseFloat(distribution) > 1
-        ? Math.max(parseFloat(distribution) / 100)
-        : Math.max(parseFloat(distribution));
+        ? Math.max(parseFloat(distribution) / 100, 0)
+        : Math.max(parseFloat(distribution), 0);
     // if a roll of the dice is greater than our threshold, skip
     const random = Math.random();
     if (random > threshold && threshold <= 1) {
