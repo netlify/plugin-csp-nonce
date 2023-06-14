@@ -7,9 +7,23 @@ export const onPreBuild = async ({ inputs, netlifyConfig, utils }) => {
   const config = JSON.stringify(inputs, null, 2);
   const { build } = netlifyConfig;
 
+  // DISABLE_CSP_NONCE is undocumented (deprecated), but still supported
+  // -> superseded by CSP_NONCE_DISTRIBUTION
   if (build.environment.DISABLE_CSP_NONCE === "true") {
     console.log(`  DISABLE_CSP_NONCE environment variable is true, skipping.`);
     return;
+  }
+
+  const distribution = build.environment.CSP_NONCE_DISTRIBUTION;
+  if (!!distribution) {
+    const threshold = distribution.endsWith("%")
+      ? Math.max(parseFloat(distribution) / 100, 0)
+      : Math.max(parseFloat(distribution), 0);
+    console.log(`  CSP_NONCE_DISTRIBUTION is set to ${threshold * 100}%`);
+    if (threshold === 0) {
+      console.log(`  Skipping.`);
+      return;
+    }
   }
 
   console.log(`  Current working directory: ${process.cwd()}`);

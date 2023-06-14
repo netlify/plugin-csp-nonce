@@ -39,6 +39,19 @@ const handler = async (request: Request, context: Context) => {
     return response;
   }
 
+  // @ts-expect-error
+  const distribution = Netlify.env.CSP_NONCE_DISTRIBUTION;
+  if (!!distribution) {
+    const threshold =
+      distribution.endsWith("%") || parseFloat(distribution) > 1
+        ? Math.max(parseFloat(distribution) / 100)
+        : Math.max(parseFloat(distribution));
+    const random = Math.random();
+    if (random > threshold && threshold <= 1) {
+      return response;
+    }
+  }
+
   const nonce = randomBytes(24).toString("base64");
   // `'strict-dynamic'` allows scripts to be loaded from trusted scripts
   // when `'strict-dynamic'` is present, `'unsafe-inline' 'self' https: http:` is ignored by browsers
