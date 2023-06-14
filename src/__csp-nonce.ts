@@ -42,7 +42,11 @@ const handler = async (request: Request, context: Context) => {
   // CSP_NONCE_DISTRIBUTION is a number from 0 to 1,
   // but 0 to 100 is also supported, along with a trailing %
   // @ts-expect-error
-  const distribution = Deno.env.CSP_NONCE_DISTRIBUTION;
+  const distribution = Netlify.env.CSP_NONCE_DISTRIBUTION;
+  // @ts-expect-error
+  console.log("Netlify.env", Netlify.env);
+  // @ts-expect-error
+  console.log("Deno.env", Deno.env);
   if (!!distribution) {
     const threshold =
       distribution.endsWith("%") || parseFloat(distribution) > 1
