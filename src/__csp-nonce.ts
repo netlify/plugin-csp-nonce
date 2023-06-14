@@ -39,6 +39,8 @@ const handler = async (request: Request, context: Context) => {
     return response;
   }
 
+  // CSP_NONCE_DISTRIBUTION is a number from 0 to 1,
+  // but 0 to 100 is also supported, along with a trailing %
   // @ts-expect-error
   const distribution = Netlify.env.CSP_NONCE_DISTRIBUTION;
   if (!!distribution) {
@@ -46,6 +48,7 @@ const handler = async (request: Request, context: Context) => {
       distribution.endsWith("%") || parseFloat(distribution) > 1
         ? Math.max(parseFloat(distribution) / 100)
         : Math.max(parseFloat(distribution));
+    // if a roll of the dice is greater than our threshold, skip
     const random = Math.random();
     if (random > threshold && threshold <= 1) {
       return response;
