@@ -50,7 +50,6 @@ const handler = async (request: Request, context: Context) => {
         : Math.max(parseFloat(distribution), 0);
     // if a roll of the dice is greater than our threshold, skip
     const random = Math.random();
-    console.log(threshold, random);
     if (random > threshold && threshold <= 1) {
       return response;
     }
