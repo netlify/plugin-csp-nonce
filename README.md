@@ -90,7 +90,6 @@ Also, monitor the edge function logs in the Netlify UI. If the edge function is 
 If your HTML does not contain the `nonce` attribute on the `<script>` tags that you expect, ensure that all of these criteria are met:
 
 - The request method is `GET`
-- The `accept` request header starts with `text/html`, or the `user-agent` request header starts with `curl/`
 - The `content-type` response header starts with `text/html`
 - The path of the request is satisfied by the `path` config option, and not included in the `excludedPath` config option
 

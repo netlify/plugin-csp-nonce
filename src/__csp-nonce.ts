@@ -25,21 +25,15 @@ const handler = async (request: Request, context: Context) => {
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
 
-  // html/curl GETs only
+  // html GETs only
   const isGET = request.method?.toUpperCase() === "GET";
-  const isCurl = request.headers.get("user-agent")?.startsWith("curl/");
-  const isHTMLRequest =
-    request.headers.get("accept")?.includes("text/html") ||
-    request.headers.get("sec-fetch-dest") === "document" ||
-    isCurl;
   const isHTMLResponse = response.headers
     .get("content-type")
     ?.startsWith("text/html");
-  const shouldTransformResponse = isGET && isHTMLRequest && isHTMLResponse;
+  const shouldTransformResponse = isGET && isHTMLResponse;
   if (!shouldTransformResponse) {
     console.log(`Unnecessary invocation for ${request.url}`, {
       method: request.method,
-      accept: request.headers.get("accept"),
       "content-type": response.headers.get("content-type"),
     });
     return response;
