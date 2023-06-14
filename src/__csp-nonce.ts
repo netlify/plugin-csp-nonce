@@ -37,7 +37,11 @@ const handler = async (request: Request, context: Context) => {
     ?.startsWith("text/html");
   const shouldTransformResponse = isGET && isHTMLRequest && isHTMLResponse;
   if (!shouldTransformResponse) {
-    console.log(`Unnecessary invocation for ${request.url}`);
+    console.log(`Unnecessary invocation for ${request.url}`, {
+      method: request.method,
+      accept: request.headers.get("accept"),
+      "content-type": response.headers.get("content-type"),
+    });
     return response;
   }
 
