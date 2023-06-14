@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.1.4...v1.2.0) (2023-06-14)
+
+
+### Features
+
+* support controlled rollouts by environment variable ([#41](https://github.com/netlify/plugin-csp-nonce/issues/41)) ([64b285b](https://github.com/netlify/plugin-csp-nonce/commit/64b285b8927404be6d507f5593b013484a88f4cc))
+
+
+### Bug Fixes
+
+* disregard accept request header ([#39](https://github.com/netlify/plugin-csp-nonce/issues/39)) ([fbda4fb](https://github.com/netlify/plugin-csp-nonce/commit/fbda4fb22a66067ed0d73a882ad57998317011c8))
+
 ## [1.1.4](https://github.com/netlify/plugin-csp-nonce/compare/v1.1.3...v1.1.4) (2023-06-14)
 
 
