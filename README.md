@@ -103,4 +103,4 @@ You can ramp up or ramp down the inclusion of the headers this plugin enforces b
 - If `1`, 100% of traffic for all matching paths will include the nonce. Functionally, this acts the same as if the `CSP_NONCE_DISTRIBUTION` environment variable was not defined.
 - Any value in between `0` and `1` will include the nonce in randomly distributed traffic. For example, a value of `0.25` will include the nonce 25% of the time for matching paths.
 
-The `CSP_NONCE_DISTRIBUTION` environment variable needs to be scoped to `Builds`.
+The `CSP_NONCE_DISTRIBUTION` environment variable needs to be scoped to both `Builds` and `Functions`.
