@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/netlify/plugin-csp-nonce/compare/v1.1.3...v1.1.4) (2023-06-14)
+
+
+### Bug Fixes
+
+* add more logging to determine unnecessary invocations ([#37](https://github.com/netlify/plugin-csp-nonce/issues/37)) ([684a01b](https://github.com/netlify/plugin-csp-nonce/commit/684a01bcbf03f94e914851ab8d2eb6223e5e992a))
+
 ## [1.1.3](https://github.com/netlify/plugin-csp-nonce/compare/v1.1.2...v1.1.3) (2023-06-13)
 
 
