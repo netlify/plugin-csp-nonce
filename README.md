@@ -93,8 +93,14 @@ If your HTML does not contain the `nonce` attribute on the `<script>` tags that 
 - The `content-type` response header starts with `text/html`
 - The path of the request is satisfied by the `path` config option, and not included in the `excludedPath` config option
 
-### Quickly enabling and disabling
+### Controlling rollout
 
-You may want to quickly enable/disable the plugin while monitoring violation reports. You can do so without modifying code.
+You may want to gradually rollout the effects of this plugin while you monitor violation reports, without modifying code.
 
-Simply set the `DISABLE_CSP_NONCE` environment variable to `true`, and your next deploy will skip running the plugin. Setting to `false` will re-enable the plugin. The environment variable needs to be scoped to `Builds`.
+You can ramp up or ramp down the inclusion of the headers this plugin enforces by setting the `CSP_NONCE_DISTRIBUTION` environment variable to a value between `0` and `1`.
+
+- If `0`, the plugin is completely skipped at build time, and no extra functions or edge functions get deployed. Functionally, this acts the same as if the plugin isn't installed at all.
+- If `1`, 100% of traffic for all matching paths will include the nonce. Functionally, this acts the same as if the `CSP_NONCE_DISTRIBUTION` environment variable was not defined.
+- Any value in between `0` and `1` will include the nonce in randomly distributed traffic. For example, a value of `0.25` will include the nonce 25% of the time for matching paths.
+
+The `CSP_NONCE_DISTRIBUTION` environment variable needs to be scoped to both `Builds` and `Functions`.
