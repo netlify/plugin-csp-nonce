@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.0...v1.2.1) (2023-06-15)
+
+
+### Bug Fixes
+
+* change header key if distribution below threshold, rather than skipping ([#42](https://github.com/netlify/plugin-csp-nonce/issues/42)) ([30ef477](https://github.com/netlify/plugin-csp-nonce/commit/30ef47799e8d0dd4ac0dffe091c270dfa1d9fb15))
+
 ## [1.2.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.1.4...v1.2.0) (2023-06-14)
 
 
