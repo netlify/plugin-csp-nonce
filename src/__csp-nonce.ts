@@ -15,14 +15,12 @@ type Params = {
 };
 const params = inputs as Params;
 
-let header = params.reportOnly
-  ? "content-security-policy-report-only"
-  : "content-security-policy";
-
 const handler = async (request: Request, context: Context) => {
   const response = await context.next();
 
-  console.log(inputs);
+  let header = params.reportOnly
+    ? "content-security-policy-report-only"
+    : "content-security-policy";
 
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
