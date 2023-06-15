@@ -22,6 +22,8 @@ let header = params.reportOnly
 const handler = async (request: Request, context: Context) => {
   const response = await context.next();
 
+  console.log(inputs);
+
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
 
