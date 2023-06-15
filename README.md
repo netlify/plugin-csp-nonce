@@ -97,10 +97,10 @@ If your HTML does not contain the `nonce` attribute on the `<script>` tags that 
 
 You may want to gradually rollout the effects of this plugin while you monitor violation reports, without modifying code.
 
-You can ramp up or ramp down the inclusion of the headers this plugin enforces by setting the `CSP_NONCE_DISTRIBUTION` environment variable to a value between `0` and `1`.
+You can ramp up or ramp down the inclusion of the `Content-Security-Policy` header by setting the `CSP_NONCE_DISTRIBUTION` environment variable to a value between `0` and `1`.
 
 - If `0`, the plugin is completely skipped at build time, and no extra functions or edge functions get deployed. Functionally, this acts the same as if the plugin isn't installed at all.
 - If `1`, 100% of traffic for all matching paths will include the nonce. Functionally, this acts the same as if the `CSP_NONCE_DISTRIBUTION` environment variable was not defined.
-- Any value in between `0` and `1` will include the nonce in randomly distributed traffic. For example, a value of `0.25` will include the nonce 25% of the time for matching paths.
+- Any value in between `0` and `1` will include the nonce in randomly distributed traffic. For example, a value of `0.25` will put the nonce in the `Content-Security-Policy` header 25% of requests for matching paths. The other 75% of matching requests will have the nonce in the `Content-Security-Policy-Report-Only` header.
 
 The `CSP_NONCE_DISTRIBUTION` environment variable needs to be scoped to both `Builds` and `Functions`.
