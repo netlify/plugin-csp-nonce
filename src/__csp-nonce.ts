@@ -51,7 +51,7 @@ const handler = async (request: Request, context: Context) => {
     const random = Math.random();
     // if a roll of the dice is greater than our threshold...
     if (random > threshold && threshold <= 1) {
-      if (header === "content-security-policy") {
+      if (!params.reportOnly) {
         // if the real CSP is set, then change to report only
         header = "content-security-policy-report-only";
       } else {
