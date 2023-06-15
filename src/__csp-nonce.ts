@@ -15,7 +15,7 @@ type Params = {
 };
 const params = inputs as Params;
 
-const header = params.reportOnly
+let header = params.reportOnly
   ? "content-security-policy-report-only"
   : "content-security-policy";
 
@@ -48,10 +48,16 @@ const handler = async (request: Request, context: Context) => {
       distribution.endsWith("%") || parseFloat(distribution) > 1
         ? Math.max(parseFloat(distribution) / 100, 0)
         : Math.max(parseFloat(distribution), 0);
-    // if a roll of the dice is greater than our threshold, skip
     const random = Math.random();
+    // if a roll of the dice is greater than our threshold...
     if (random > threshold && threshold <= 1) {
-      return response;
+      if (header === "content-security-policy") {
+        // if the real CSP is set, then change to report only
+        header = "content-security-policy-report-only";
+      } else {
+        // if the CSP is set to report-only, return unadulterated response
+        return response;
+      }
     }
   }
 
