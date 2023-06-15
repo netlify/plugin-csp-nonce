@@ -49,10 +49,9 @@ const handler = async (request: Request, context: Context) => {
         ? Math.max(parseFloat(distribution) / 100, 0)
         : Math.max(parseFloat(distribution), 0);
     const random = Math.random();
-    console.log(random, threshold);
     // if a roll of the dice is greater than our threshold...
     if (random > threshold && threshold <= 1) {
-      if (!params.reportOnly) {
+      if (header === "content-security-policy") {
         // if the real CSP is set, then change to report only
         header = "content-security-policy-report-only";
       } else {
@@ -61,8 +60,6 @@ const handler = async (request: Request, context: Context) => {
       }
     }
   }
-
-  console.log(header);
 
   const nonce = randomBytes(24).toString("base64");
   // `'strict-dynamic'` allows scripts to be loaded from trusted scripts
