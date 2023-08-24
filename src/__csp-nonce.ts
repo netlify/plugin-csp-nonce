@@ -3,6 +3,8 @@
 import type { Config, Context } from "netlify:edge";
 // @ts-expect-error
 import { randomBytes } from "node:crypto";
+// @ts-expect-error
+import { HTMLRewriter } from "https://ghuc.cc/worker-tools/html-rewriter@0.1.0-pre.17/index.ts";
 
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
 
@@ -16,7 +18,7 @@ type Params = {
 const params = inputs as Params;
 
 const handler = async (request: Request, context: Context) => {
-  const response = await context.next();
+  const response = await context.next(request);
 
   let header = params.reportOnly
     ? "content-security-policy-report-only"
@@ -109,13 +111,13 @@ const handler = async (request: Request, context: Context) => {
     response.headers.set(header, value);
   }
 
-  // time to do some regex magic
-  const page = await response.text();
-  const rewrittenPage = page.replace(
-    /<script([^>]*)>/gi,
-    `<script$1 nonce="${nonce}">`
-  );
-  return new Response(rewrittenPage, response);
+  return new HTMLRewriter()
+    .on("script", {
+      element(element) {
+        element.setAttribute("nonce", nonce);
+      },
+    })
+    .transform(response);
 };
 
 // Top 50 most common extensions (minus .html and .htm) according to Humio
