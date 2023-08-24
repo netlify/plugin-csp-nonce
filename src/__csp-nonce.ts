@@ -175,7 +175,7 @@ export const config: Config = {
   excludedPath: [
     ...params.excludedPath,
     "/.netlify/*",
-    ...excludedExtensions.map((ext) => `**/*.${ext}`),
+    `**/*.(${excludedExtensions.join("|")})`,
   ],
   handler,
   onError: "bypass",
