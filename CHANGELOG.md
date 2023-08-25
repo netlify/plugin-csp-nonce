@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.1...v1.2.2) (2023-08-25)
+
+
+### Bug Fixes
+
+* join excluded extensions into one regex instead of spreading into multiple regexes ([#49](https://github.com/netlify/plugin-csp-nonce/issues/49)) ([f053d5a](https://github.com/netlify/plugin-csp-nonce/commit/f053d5af571c6d3ba3559842e903f5c99c57bb32))
+* **perf:** use HTMLRewriter instead of regex for html transformation ([#48](https://github.com/netlify/plugin-csp-nonce/issues/48)) ([c48daad](https://github.com/netlify/plugin-csp-nonce/commit/c48daadf8255b307cee86f680916218f563d9912))
+
 ## [1.2.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.0...v1.2.1) (2023-06-15)
 
 
