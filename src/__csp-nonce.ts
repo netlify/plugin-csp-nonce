@@ -1,11 +1,12 @@
 /* eslint-disable */
-// @ts-expect-error
+// @ts-ignore
 import type { Config, Context } from "netlify:edge";
-// @ts-expect-error
+// @ts-ignore
 import { randomBytes } from "node:crypto";
-// @ts-expect-error
+// @ts-ignore
 import { HTMLRewriter } from "https://ghuc.cc/worker-tools/html-rewriter@0.1.0-pre.17/index.ts";
 
+// @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
 
 type Params = {
@@ -43,7 +44,7 @@ const handler = async (request: Request, context: Context) => {
 
   // CSP_NONCE_DISTRIBUTION is a number from 0 to 1,
   // but 0 to 100 is also supported, along with a trailing %
-  // @ts-expect-error
+  // @ts-ignore
   const distribution = Netlify.env.get("CSP_NONCE_DISTRIBUTION");
   if (!!distribution) {
     const threshold =
@@ -82,7 +83,7 @@ const handler = async (request: Request, context: Context) => {
     params.reportUri || "/.netlify/functions/__csp-violations"
   }`;
 
-  const csp = response.headers.get(header);
+  const csp = response.headers.get(header) as string;
   if (csp) {
     const directives = csp
       .split(";")
@@ -113,7 +114,7 @@ const handler = async (request: Request, context: Context) => {
 
   return new HTMLRewriter()
     .on("script", {
-      element(element) {
+      element(element: HTMLElement) {
         element.setAttribute("nonce", nonce);
       },
     })

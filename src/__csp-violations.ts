@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-ignore
 const handler = async (event) => {
   try {
     const { "csp-report": cspReport } = JSON.parse(event.body);
