@@ -17,13 +17,14 @@
     "src/*"
   ],
   "devDependencies": {
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "typescript": "^5.2.2"
   },
   "bugs": {
     "url": "https://github.com/netlify/plugin-csp-nonce/issues"
   },
   "homepage": "https://github.com/netlify/plugin-csp-nonce#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc src/*.ts --noEmit --strict --lib es2018,dom"
   }
 }
