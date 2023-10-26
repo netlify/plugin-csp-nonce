@@ -178,7 +178,7 @@ export const config: Config = {
   excludedPath: [
     "/.netlify/*",
     `**/*.(${excludedExtensions.join("|")})`,
-  ].concat(params.excludedPath),
+  ].concat(params.excludedPath).filter(Boolean),
   handler,
   onError: "bypass",
 };
