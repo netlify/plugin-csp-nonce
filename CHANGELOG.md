@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.4](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.3...v1.2.4) (2023-10-26)
+
+
+### Bug Fixes
+
+* excludedPath not iterable ([#56](https://github.com/netlify/plugin-csp-nonce/issues/56)) ([843b241](https://github.com/netlify/plugin-csp-nonce/commit/843b2414a5ef7ad4e02c960d4216ab8ec4fa9b8c))
+
 ## [1.2.3](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.2...v1.2.3) (2023-10-23)
 
 
