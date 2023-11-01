@@ -112,8 +112,9 @@ const handler = async (request: Request, context: Context) => {
     response.headers.set(header, value);
   }
 
+  const querySelectors = ["script", 'link[rel="preload"][as="script"]'];
   return new HTMLRewriter()
-    .on("script", {
+    .on(querySelectors.join(","), {
       element(element: HTMLElement) {
         element.setAttribute("nonce", nonce);
       },

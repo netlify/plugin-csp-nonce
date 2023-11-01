@@ -2,11 +2,12 @@
 <html>
   <head>
     <title>Using CSP Nonces on Script Tags</title>
-    <style>
-      body {
-        font-family: sans-serif;
-      }
-    </style>
+    <link rel="stylesheet" href="/main.css" />
+    <link
+      rel="preload"
+      as="script"
+      href="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"
+    />
   </head>
   <body>
     <h1>Using CSP Nonces on Script Tags</h1>
@@ -40,7 +41,7 @@
           "ipt>" +
           "document.write('<div>❌ Script tag from <code>document.write</code> has executed!</div>');" +
           "</scr" +
-          "ipt>"
+          "ipt>",
       );
     </script>
     <script>
