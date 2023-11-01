@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.5](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.4...v1.2.5) (2023-11-01)
+
+
+### Bug Fixes
+
+* add nonce to link preload tags ([#59](https://github.com/netlify/plugin-csp-nonce/issues/59)) ([c097ee0](https://github.com/netlify/plugin-csp-nonce/commit/c097ee0cf432ea6a7df946021b0daa9869d7a915))
+
 ## [1.2.4](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.3...v1.2.4) (2023-10-26)
 
 
