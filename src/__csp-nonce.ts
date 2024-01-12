@@ -98,11 +98,7 @@ const handler = async (request: Request, context: Context) => {
       })
       .filter(Boolean);
     // push our rules if the directives don't exist yet
-    if (
-      !directives.find(
-        (d) => d.startsWith("script-src") && !d.startsWith("script-src-elem"),
-      )
-    ) {
+    if (!directives.find((d) => d.startsWith("script-src"))) {
       directives.push(scriptSrc);
     }
     if (!directives.find((d) => d.startsWith("report-uri"))) {
