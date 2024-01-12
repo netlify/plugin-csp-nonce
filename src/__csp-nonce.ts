@@ -90,7 +90,7 @@ const handler = async (request: Request, context: Context) => {
       .map((directive) => {
         // prepend our rules for any existing directives
         const d = directive.trim();
-        if (d.startsWith("script-src")) {
+        if (d.startsWith("script-src") && !d.startsWith("script-src-elem")) {
           return d.replace("script-src", scriptSrc);
         }
         // intentionally omit report-uri: theirs should take precedence
@@ -98,7 +98,11 @@ const handler = async (request: Request, context: Context) => {
       })
       .filter(Boolean);
     // push our rules if the directives don't exist yet
-    if (!directives.find((d) => d.startsWith("script-src"))) {
+    if (
+      !directives.find(
+        (d) => d.startsWith("script-src") && !d.startsWith("script-src-elem"),
+      )
+    ) {
       directives.push(scriptSrc);
     }
     if (!directives.find((d) => d.startsWith("report-uri"))) {
