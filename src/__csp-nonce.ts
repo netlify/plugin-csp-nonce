@@ -28,12 +28,13 @@ const handler = async (request: Request, context: Context) => {
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
 
-  // html GETs only
+  // html non-3xx GETs only
   const isGET = request.method?.toUpperCase() === "GET";
+  const isRedirect = response.status >= 300 && response.status < 400;
   const isHTMLResponse = response.headers
     .get("content-type")
     ?.startsWith("text/html");
-  const shouldTransformResponse = isGET && isHTMLResponse;
+  const shouldTransformResponse = isGET && !isRedirect && isHTMLResponse;
   if (!shouldTransformResponse) {
     console.log(`Unnecessary invocation for ${request.url}`, {
       method: request.method,
