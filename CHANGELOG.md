@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.6](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.5...v1.2.6) (2024-01-16)
+
+
+### Bug Fixes
+
+* mangled `script-src-elem` directive ([#63](https://github.com/netlify/plugin-csp-nonce/issues/63)) ([3c3f5fb](https://github.com/netlify/plugin-csp-nonce/commit/3c3f5fb6c74c6fb0f02fc1bc8cc97c2d1a87c1f9))
+
 ## [1.2.5](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.4...v1.2.5) (2023-11-01)
 
 
