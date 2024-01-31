@@ -13,6 +13,7 @@ type Params = {
   reportOnly: boolean;
   reportUri?: string;
   unsafeEval: boolean;
+  backwardsCompatible: boolean;
   path: string | string[];
   excludedPath: string[];
 };
@@ -74,9 +75,9 @@ const handler = async (request: Request, context: Context) => {
     `'strict-dynamic'`,
     `'unsafe-inline'`,
     params.unsafeEval && `'unsafe-eval'`,
-    `'self'`,
-    `https:`,
-    `http:`,
+    params.backwardsCompatible && `'self'`,
+    params.backwardsCompatible && `https:`,
+    params.backwardsCompatible && `http:`,
   ].filter(Boolean);
   const scriptSrc = `script-src ${rules.join(" ")}`;
   const reportUri = `report-uri ${
