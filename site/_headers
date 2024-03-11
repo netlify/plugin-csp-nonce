@@ -1,2 +1,2 @@
 /*
-  Content-Security-Policy = "img-src 'self' blob: data:; script-src 'sha256-fc26f857180bd9a54fd0c543bdb3f40e010e52ff8c78d426657e325c7927fdcd'"
+  Content-Security-Policy: img-src 'self' blob: data:; script-src 'sha256-fc26f857180bd9a54fd0c543bdb3f40e010e52ff8c78d426657e325c7927fdcd'
