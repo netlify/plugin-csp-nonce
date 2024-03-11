@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.7](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.6...v1.2.7) (2024-03-11)
+
+
+### Bug Fixes
+
+* use functions-internal to ensure frameworks do not remove edge function we generate ([#70](https://github.com/netlify/plugin-csp-nonce/issues/70)) ([0da8536](https://github.com/netlify/plugin-csp-nonce/commit/0da85367bd947ca91a4ea95c1f20a3c395dcf40f))
+
 ## [1.2.6](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.5...v1.2.6) (2024-01-16)
 
 
