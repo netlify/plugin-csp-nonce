@@ -45,7 +45,17 @@
       );
     </script>
     <script>
-      var CHECKS_COUNT = 5;
+      // test for https://github.com/netlify/plugin-csp-nonce/issues/72 case
+      document.write(
+        "<scr" +
+          "ipt>" +
+          "document.write('<p>✅ User-defined script-src value is preserved!</p>');" +
+          "</scr" +
+          "ipt>",
+      );
+    </script>
+    <script>
+      var CHECKS_COUNT = 6;
       if (document.getElementsByTagName("p").length === CHECKS_COUNT) {
         document.write("<p>✅ Test suite has succeeded</p>");
       } else {
