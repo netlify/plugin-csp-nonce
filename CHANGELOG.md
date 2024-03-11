@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.8](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.7...v1.2.8) (2024-03-11)
+
+
+### Bug Fixes
+
+* missing leading space before user-supplied value ([#73](https://github.com/netlify/plugin-csp-nonce/issues/73)) ([f30f961](https://github.com/netlify/plugin-csp-nonce/commit/f30f961d2276478d6d1caf4d5fa4417b87146099))
+
 ## [1.2.7](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.6...v1.2.7) (2024-03-11)
 
 
