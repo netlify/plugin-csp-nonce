@@ -92,7 +92,9 @@ const handler = async (request: Request, context: Context) => {
         const d = directive.trim();
         // intentionally add trailing space to avoid mangling `script-src-elem`
         if (d.startsWith("script-src ")) {
-          return d.replace("script-src ", scriptSrc);
+          // append with trailing space to include any user-supplied values
+          // https://github.com/netlify/plugin-csp-nonce/issues/72
+          return d.replace("script-src ", `${scriptSrc} `).trim();
         }
         // intentionally omit report-uri: theirs should take precedence
         return d;
