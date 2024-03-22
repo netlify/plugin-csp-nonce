@@ -92,6 +92,7 @@ If your HTML does not contain the `nonce` attribute on the `<script>` tags that 
 - The request method is `GET`
 - The `content-type` response header starts with `text/html`
 - The path of the request is satisfied by the `path` config option, and not included in the `excludedPath` config option
+- This site does not use [Split Testing](https://docs.netlify.com/site-deploys/split-testing/). There is a [known limitation](https://docs.netlify.com/edge-functions/limits/#feature-limitations) that requests to sites with Split Testing enabled will not execute edge functions.
 
 ### Controlling rollout
 
