@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.9](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.8...v1.2.9) (2024-03-22)
+
+
+### Bug Fixes
+
+* remove trailing slash from .netlify excluded path ([#76](https://github.com/netlify/plugin-csp-nonce/issues/76)) ([63b6d91](https://github.com/netlify/plugin-csp-nonce/commit/63b6d911991d3b98ddbd98456be40bc7c50c97f1))
+
 ## [1.2.8](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.7...v1.2.8) (2024-03-11)
 
 
