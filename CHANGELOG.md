@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.10](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.9...v1.2.10) (2024-05-02)
+
+
+### Bug Fixes
+
+* upgrade html_rewriter ([#79](https://github.com/netlify/plugin-csp-nonce/issues/79)) ([ae4974f](https://github.com/netlify/plugin-csp-nonce/commit/ae4974f87c717fb4a9614f036bb5c20c36996d98))
+
 ## [1.2.9](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.8...v1.2.9) (2024-03-22)
 
 
