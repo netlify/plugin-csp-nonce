@@ -4,7 +4,7 @@ import type { Config, Context } from "netlify:edge";
 // @ts-ignore
 import { randomBytes } from "node:crypto";
 // @ts-ignore
-import { HTMLRewriter } from "https://ghuc.cc/worker-tools/html-rewriter@0.1.0-pre.17/index.ts";
+import { HTMLRewriter } from "https://ghuc.cc/worker-tools/html-rewriter@0.1.0-pre.19/index.ts";
 
 // @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
