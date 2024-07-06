@@ -80,7 +80,7 @@ const handler = async (request: Request, context: Context) => {
     `http:`,
   ].filter(Boolean);
 
-  const joinedRules = ${rules.join(" ");
+  const joinedRules = rules.join(" ");
   const scriptSrc = `script-src ${joinedRules}`;
   const styleSrc = `style-src ${joinedRules}`;
   const reportUri = `report-uri ${
