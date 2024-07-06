@@ -129,6 +129,11 @@ const handler = async (request: Request, context: Context) => {
   }
 
   const querySelectors = ["script", 'link[rel="preload"][as="script"]'];
+  if (params.styleSrc) {
+    querySelectors.push("style");
+    querySelectors.push('link[rel="preload"][as="style"]');
+  }
+  
   return new HTMLRewriter()
     .on(querySelectors.join(","), {
       element(element: HTMLElement) {
