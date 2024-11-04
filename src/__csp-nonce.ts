@@ -19,6 +19,21 @@ type Params = {
 const params = inputs as Params;
 
 const handler = async (request: Request, context: Context) => {
+  const isGET = request.method === "GET";
+  // We only need to run this for HTTP GET requests.
+  // If it is not a GET, then return early.
+  //
+  // If we instead used `context.next(request)`
+  // we would be passing the request through this 
+  // edge function for no useful reason.
+  if (!isGET) {
+    return;
+  }
+
+
+  // At this point, we know it's a GET request,
+  // we have to now make the request, in order to
+  // see what the HTTP response's content-type is.
   const response = await context.next(request);
 
   let header = params.reportOnly
@@ -28,12 +43,10 @@ const handler = async (request: Request, context: Context) => {
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
 
-  // html GETs only
-  const isGET = request.method?.toUpperCase() === "GET";
   const isHTMLResponse = response.headers
     .get("content-type")
     ?.startsWith("text/html");
-  const shouldTransformResponse = isGET && isHTMLResponse;
+  const shouldTransformResponse = isHTMLResponse;
   if (!shouldTransformResponse) {
     console.log(`Unnecessary invocation for ${request.url}`, {
       method: request.method,
@@ -180,8 +193,8 @@ const excludedExtensions = [
 export const config: Config = {
   path: params.path,
   excludedPath: ["/.netlify*", `**/*.(${excludedExtensions.join("|")})`]
-    .concat(params.excludedPath)
-    .filter(Boolean),
+  .concat(params.excludedPath)
+  .filter(Boolean),
   handler,
   onError: "bypass",
 };
