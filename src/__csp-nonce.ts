@@ -30,9 +30,7 @@ const handler = async (request: Request, context: Context) => {
 
   // html GETs only
   const isGET = request.method?.toUpperCase() === "GET";
-  const isHTMLResponse = response.headers
-    .get("content-type")
-    ?.startsWith("text/html");
+  const isHTMLResponse = response.headers.get("content-type") === "text/html";
   const shouldTransformResponse = isGET && isHTMLResponse;
   if (!shouldTransformResponse) {
     console.log(`Unnecessary invocation for ${request.url}`, {
