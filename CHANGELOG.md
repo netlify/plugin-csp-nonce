@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.11](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.10...v1.2.11) (2024-11-04)
+
+
+### Bug Fixes
+
+* **perf:** return early if the request is not a HTTP GET ([#84](https://github.com/netlify/plugin-csp-nonce/issues/84)) ([66936f9](https://github.com/netlify/plugin-csp-nonce/commit/66936f9728cd817f163cbd23401465e2b7f7ed63))
+
 ## [1.2.10](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.9...v1.2.10) (2024-05-02)
 
 
