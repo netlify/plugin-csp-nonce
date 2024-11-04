@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.12](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.11...v1.2.12) (2024-11-04)
+
+
+### Bug Fixes
+
+* update the config to only ever run the function for HTTP GET requests ([#87](https://github.com/netlify/plugin-csp-nonce/issues/87)) ([15abadd](https://github.com/netlify/plugin-csp-nonce/commit/15abadd93d833ae67b88609f6606b94213e3f197))
+
 ## [1.2.11](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.10...v1.2.11) (2024-11-04)
 
 
