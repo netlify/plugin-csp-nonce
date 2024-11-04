@@ -19,7 +19,7 @@ type Params = {
 const params = inputs as Params;
 
 const handler = async (request: Request, context: Context) => {
-  const isGET = request.method.toUpperCase() === "GET";
+  const isGET = request.method === "GET";
   // We only need to run this for HTTP GET requests.
   // If it is not a GET, then return early.
   //
