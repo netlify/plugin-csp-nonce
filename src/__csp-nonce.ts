@@ -21,24 +21,21 @@ const params = inputs as Params;
 const handler = async (request: Request, context: Context) => {
   const response = await context.next(request);
 
-  let header = params.reportOnly
-    ? "content-security-policy-report-only"
-    : "content-security-policy";
-
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
 
-  // html GETs only
-  const isGET = request.method?.toUpperCase() === "GET";
   const isHTMLResponse = response.headers.get("content-type") === "text/html";
-  const shouldTransformResponse = isGET && isHTMLResponse;
-  if (!shouldTransformResponse) {
+  if (!isHTMLResponse) {
     console.log(`Unnecessary invocation for ${request.url}`, {
       method: request.method,
       "content-type": response.headers.get("content-type"),
     });
     return response;
   }
+
+  let header = params.reportOnly
+    ? "content-security-policy-report-only"
+    : "content-security-policy";
 
   // CSP_NONCE_DISTRIBUTION is a number from 0 to 1,
   // but 0 to 100 is also supported, along with a trailing %
@@ -178,10 +175,11 @@ const excludedExtensions = [
 export const config: Config = {
   path: params.path,
   excludedPath: ["/.netlify*", `**/*.(${excludedExtensions.join("|")})`]
-    .concat(params.excludedPath)
-    .filter(Boolean),
+  .concat(params.excludedPath)
+  .filter(Boolean),
   handler,
   onError: "bypass",
+  method: "GET",
 };
 
 export default handler;
