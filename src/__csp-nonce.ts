@@ -27,9 +27,6 @@ const handler = async (request: Request, context: Context) => {
   // we would be passing the request through this 
   // edge function for no useful reason.
   if (!isGET) {
-    console.log(`Unnecessary invocation for ${request.url}`, {
-      method: request.method,
-    });
     return;
   }
 
