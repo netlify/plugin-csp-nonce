@@ -36,10 +36,6 @@ const handler = async (request: Request, context: Context) => {
   // see what the HTTP response's content-type is.
   const response = await context.next(request);
 
-  let header = params.reportOnly
-    ? "content-security-policy-report-only"
-    : "content-security-policy";
-
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
 
@@ -54,6 +50,10 @@ const handler = async (request: Request, context: Context) => {
     });
     return response;
   }
+
+  let header = params.reportOnly
+    ? "content-security-policy-report-only"
+    : "content-security-policy";
 
   // CSP_NONCE_DISTRIBUTION is a number from 0 to 1,
   // but 0 to 100 is also supported, along with a trailing %
