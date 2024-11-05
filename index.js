@@ -47,7 +47,7 @@ export const onPreBuild = async ({
 
   console.log(`  Current working directory: ${process.cwd()}`);
   const basePath =
-    build.environment.SITE_ID === SITE_ID
+    build.environment.SITE_ID === undefined || build.environment.SITE_ID === SITE_ID
       ? "./src"
       : "./node_modules/@netlify/plugin-csp-nonce/src";
 
