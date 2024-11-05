@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.13...v1.3.0) (2024-11-05)
+
+
+### Features
+
+* Do not invoke the CSP Edge Function for Netlify Image CDN requests ([#90](https://github.com/netlify/plugin-csp-nonce/issues/90)) ([410862e](https://github.com/netlify/plugin-csp-nonce/commit/410862e1271dfffaf8cdae6c7c3dc9a4c37fca50))
+
 ## [1.2.13](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.12...v1.2.13) (2024-11-05)
 
 
