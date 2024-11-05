@@ -26,5 +26,8 @@
   "homepage": "https://github.com/netlify/plugin-csp-nonce#readme",
   "scripts": {
     "build": "tsc src/*.ts --noEmit --strict --lib es2018,dom"
+  },
+  "dependencies": {
+    "@netlify/build-info": "^7.15.2"
   }
 }
