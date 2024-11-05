@@ -1,7 +1,17 @@
 /* eslint-disable no-console */
 import fs, { copyFileSync } from "fs";
+import { getBuildInfo } from '@netlify/build-info/node';
 
 const SITE_ID = "321a7119-6008-49a8-9d2f-e20602b1b349";
+
+async function projectUsesNextJS() {
+  for (const framework of (await getBuildInfo()).frameworks) {
+    if (framework.id === 'next') {
+      return true;
+    }
+  }
+  return false;
+}
 
 export const onPreBuild = async ({
   inputs,
@@ -9,7 +19,6 @@ export const onPreBuild = async ({
   utils,
   constants,
 }) => {
-  const config = JSON.stringify(inputs, null, 2);
   const { build } = netlifyConfig;
 
   const { INTERNAL_EDGE_FUNCTIONS_SRC, INTERNAL_FUNCTIONS_SRC } = constants;
@@ -51,9 +60,20 @@ export const onPreBuild = async ({
     `${basePath}/__csp-nonce.ts`,
     `${INTERNAL_EDGE_FUNCTIONS_SRC}/__csp-nonce.ts`,
   );
+
+  const usesNext = await projectUsesNextJS();
+
+  // Do not invoke the CSP Edge Function for Netlify Image CDN requests.
+  inputs.excludedPath.push('/.netlify/images');
+  
+  // If using NextJS, do not invoke the CSP Edge Function for NextJS Image requests.
+  if (usesNext) {
+    inputs.excludedPath.push('/_next/image');
+  }
+  
   fs.writeFileSync(
     `${INTERNAL_EDGE_FUNCTIONS_SRC}/__csp-nonce-inputs.json`,
-    config,
+    JSON.stringify(inputs, null, 2),
   );
 
   // if no reportUri in config input, deploy function on site's behalf
