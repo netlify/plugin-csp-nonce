@@ -24,8 +24,11 @@ const handler = async (request: Request, context: Context) => {
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
 
-  const isHTMLResponse = response.headers.get("content-type") === "text/html";
-  if (!isHTMLResponse) {
+  const isHTMLResponse = response.headers
+    .get("content-type")
+    ?.startsWith("text/html");
+  const shouldTransformResponse = isHTMLResponse;
+  if (!shouldTransformResponse) {
     console.log(`Unnecessary invocation for ${request.url}`, {
       method: request.method,
       "content-type": response.headers.get("content-type"),
