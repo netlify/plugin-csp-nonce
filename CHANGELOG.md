@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.13](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.12...v1.2.13) (2024-11-05)
+
+
+### Performance Improvements
+
+* refactor the content-type check from `startsWith("text/html")` to `=== "text/html" ([#85](https://github.com/netlify/plugin-csp-nonce/issues/85)) ([6aeef74](https://github.com/netlify/plugin-csp-nonce/commit/6aeef74613b33f4d1bdfbd3261072b7cbc94184e))
+
 ## [1.2.12](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.11...v1.2.12) (2024-11-04)
 
 
