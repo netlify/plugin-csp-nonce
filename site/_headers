@@ -1,2 +1,2 @@
-/*
+/
   Content-Security-Policy: img-src 'self' blob: data:; script-src 'sha256-/Cb4VxgL2aVP0MVDvbP0DgEOUv+MeNQmZX4yXHkn/c0='
