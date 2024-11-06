@@ -14,3 +14,6 @@ inputs:
   - name: excludedPath
     description: The glob expressions of path(s) that *should not* invoke the CSP nonce edge function. Must be an array of strings. This value gets spread with common non-html filetype extensions (*.css, *.js, *.svg, etc)
     default: []
+  - name: styleSrc
+    description: When true, adds nonce to the `style-src` directive of your Content Security Policy to prevent attackers from modifying the contents or appearance of your page.
+    default: false
