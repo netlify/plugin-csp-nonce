@@ -3,3 +3,6 @@ node_modules
 
 # Local Netlify folder
 .netlify
+
+netlify/edge-functions
+deno.lock

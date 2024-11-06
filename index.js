@@ -1,12 +1,14 @@
 /* eslint-disable no-console */
-import fs, { copyFileSync } from "fs";
-import { getBuildInfo } from '@netlify/build-info/node';
+import fs, { copyFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from 'node:url'
+import { getBuildInfo } from "@netlify/build-info/node";
 
-const SITE_ID = "321a7119-6008-49a8-9d2f-e20602b1b349";
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 async function projectUsesNextJS() {
   for (const framework of (await getBuildInfo()).frameworks) {
-    if (framework.id === 'next') {
+    if (framework.id === "next") {
       return true;
     }
   }
@@ -46,34 +48,30 @@ export const onPreBuild = async ({
   }
 
   console.log(`  Current working directory: ${process.cwd()}`);
-  const basePath =
-    build.environment.SITE_ID === SITE_ID
-      ? "./src"
-      : "./node_modules/@netlify/plugin-csp-nonce/src";
 
   // make the directory in case it actually doesn't exist yet
   await utils.run.command(`mkdir -p ${INTERNAL_EDGE_FUNCTIONS_SRC}`);
   console.log(
-    `  Writing nonce edge function to ${INTERNAL_EDGE_FUNCTIONS_SRC}...`,
+    `  Writing nonce edge function to ${INTERNAL_EDGE_FUNCTIONS_SRC}...`
   );
   copyFileSync(
-    `${basePath}/__csp-nonce.ts`,
-    `${INTERNAL_EDGE_FUNCTIONS_SRC}/__csp-nonce.ts`,
+    resolve(__dirname, `./src/__csp-nonce.ts`),
+    `${INTERNAL_EDGE_FUNCTIONS_SRC}/__csp-nonce.ts`
   );
 
   const usesNext = await projectUsesNextJS();
 
   // Do not invoke the CSP Edge Function for Netlify Image CDN requests.
-  inputs.excludedPath.push('/.netlify/images');
-  
+  inputs.excludedPath.push("/.netlify/images");
+
   // If using NextJS, do not invoke the CSP Edge Function for NextJS Image requests.
   if (usesNext) {
-    inputs.excludedPath.push('/_next/image');
+    inputs.excludedPath.push("/_next/image");
   }
-  
+
   fs.writeFileSync(
     `${INTERNAL_EDGE_FUNCTIONS_SRC}/__csp-nonce-inputs.json`,
-    JSON.stringify(inputs, null, 2),
+    JSON.stringify(inputs, null, 2)
   );
 
   // if no reportUri in config input, deploy function on site's behalf
@@ -81,11 +79,11 @@ export const onPreBuild = async ({
     // make the directory in case it actually doesn't exist yet
     await utils.run.command(`mkdir -p ${INTERNAL_FUNCTIONS_SRC}`);
     console.log(
-      `  Writing violations logging function to ${INTERNAL_FUNCTIONS_SRC}...`,
+      `  Writing violations logging function to ${INTERNAL_FUNCTIONS_SRC}...`
     );
     copyFileSync(
-      `${basePath}/__csp-violations.ts`,
-      `${INTERNAL_FUNCTIONS_SRC}/__csp-violations.ts`,
+      resolve(__dirname, `./src/__csp-violations.ts`),
+      `${INTERNAL_FUNCTIONS_SRC}/__csp-violations.ts`
     );
   } else {
     console.log(`  Using ${inputs.reportUri} as report-uri directive...`);
@@ -93,3 +91,5 @@ export const onPreBuild = async ({
 
   console.log(`  Done.`);
 };
+
+export const onPreDev = onPreBuild;

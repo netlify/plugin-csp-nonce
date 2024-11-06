@@ -17,15 +17,22 @@
     "src/*"
   ],
   "devDependencies": {
+    "cheerio": "^1.0.0",
+    "content-security-policy-parser": "^0.6.0",
+    "execa": "^9.5.1",
+    "get-port": "^7.1.0",
     "prettier": "^2.8.8",
-    "typescript": "^5.2.2"
+    "strip-ansi": "^7.1.0",
+    "typescript": "^5.2.2",
+    "vitest": "^2.1.4"
   },
   "bugs": {
     "url": "https://github.com/netlify/plugin-csp-nonce/issues"
   },
   "homepage": "https://github.com/netlify/plugin-csp-nonce#readme",
   "scripts": {
-    "build": "tsc src/*.ts --noEmit --strict --lib es2018,dom"
+    "build": "tsc src/*.ts --noEmit --strict --lib es2018,dom",
+    "test": "vitest"
   },
   "dependencies": {
     "@netlify/build-info": "^7.15.2"
