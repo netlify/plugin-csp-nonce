@@ -2,3 +2,9 @@
   package = "/"
   [plugins.inputs]
     reportOnly = false
+
+[build.environment]
+  SITE_ID = "321a7119-6008-49a8-9d2f-e20602b1b349"
+
+[dev]
+  publish = "site"
