@@ -1,8 +1,10 @@
 /* eslint-disable no-console */
-import fs, { copyFileSync } from "fs";
+import fs, { copyFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from 'node:url'
 import { getBuildInfo } from "@netlify/build-info/node";
 
-const SITE_ID = "321a7119-6008-49a8-9d2f-e20602b1b349";
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 async function projectUsesNextJS() {
   for (const framework of (await getBuildInfo()).frameworks) {
@@ -46,10 +48,6 @@ export const onPreBuild = async ({
   }
 
   console.log(`  Current working directory: ${process.cwd()}`);
-  const basePath =
-    build.environment.SITE_ID === SITE_ID
-      ? "./src"
-      : "./node_modules/@netlify/plugin-csp-nonce/src";
 
   // make the directory in case it actually doesn't exist yet
   await utils.run.command(`mkdir -p ${INTERNAL_EDGE_FUNCTIONS_SRC}`);
@@ -57,7 +55,7 @@ export const onPreBuild = async ({
     `  Writing nonce edge function to ${INTERNAL_EDGE_FUNCTIONS_SRC}...`
   );
   copyFileSync(
-    `${basePath}/__csp-nonce.ts`,
+    resolve(__dirname, `./src/__csp-nonce.ts`),
     `${INTERNAL_EDGE_FUNCTIONS_SRC}/__csp-nonce.ts`
   );
 
@@ -84,7 +82,7 @@ export const onPreBuild = async ({
       `  Writing violations logging function to ${INTERNAL_FUNCTIONS_SRC}...`
     );
     copyFileSync(
-      `${basePath}/__csp-violations.ts`,
+      resolve(__dirname, `./src/__csp-violations.ts`),
       `${INTERNAL_FUNCTIONS_SRC}/__csp-violations.ts`
     );
   } else {
