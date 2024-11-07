@@ -4,7 +4,11 @@ import type { Config, Context } from "netlify:edge";
 // @ts-ignore
 import { randomBytes } from "node:crypto";
 // @ts-ignore
-import { HTMLRewriter } from "https://ghuc.cc/worker-tools/html-rewriter@0.1.0-pre.19/index.ts";
+import init from 'https://unpkg.com/htmlrewriter@0.0.12/dist/html_rewriter.js'
+// @ts-ignore
+import { HTMLRewriterWrapper } from 'https://unpkg.com/htmlrewriter@0.0.12/dist/html_rewriter_wrapper.js'
+
+export const HTMLRewriter = HTMLRewriterWrapper(init('https://unpkg.com/htmlrewriter@0.0.12/dist/html_rewriter_bg.wasm'))
 
 // @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
