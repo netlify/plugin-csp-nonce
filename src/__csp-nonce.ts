@@ -4,11 +4,11 @@ import type { Config, Context } from "netlify:edge";
 // @ts-ignore
 import { randomBytes } from "node:crypto";
 // @ts-ignore
-import init from 'https://unpkg.com/htmlrewriter@0.0.12/dist/html_rewriter.js'
+import init from 'https://cdn.jsdelivr.net/gh/jakechampion/htmlrewriter@6257bf778a1b3237f5b6ed0ecec2c346bc5a6a94/dist/html_rewriter.js'
 // @ts-ignore
-import { HTMLRewriterWrapper } from 'https://unpkg.com/htmlrewriter@0.0.12/dist/html_rewriter_wrapper.js'
+import { HTMLRewriterWrapper } from 'https://cdn.jsdelivr.net/gh/jakechampion/htmlrewriter@6257bf778a1b3237f5b6ed0ecec2c346bc5a6a94/dist/html_rewriter_wrapper.js'
 
-export const HTMLRewriter = HTMLRewriterWrapper(init('https://unpkg.com/htmlrewriter@0.0.12/dist/html_rewriter_bg.wasm'))
+export const HTMLRewriter = HTMLRewriterWrapper(init('https://cdn.jsdelivr.net/gh/jakechampion/htmlrewriter@6257bf778a1b3237f5b6ed0ecec2c346bc5a6a94/dist/html_rewriter_bg.wasm'))
 
 // @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
