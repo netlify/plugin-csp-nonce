@@ -8,6 +8,21 @@ inputs:
   - name: unsafeEval
     description: When true, adds 'unsafe-eval' to CSP for easier adoption. Set to false to have a safer policy if your code and code dependencies does not use eval().
     default: true
+  - name: strictDynamic
+    description: When true, adds 'strictDynamic' to CSP. Set to false to not include 'strictDynamic' in the CSP.
+    default: true
+  - name: unsafeInline
+    description: When true, adds 'unsafeInline' to CSP. Set to false to not include 'unsafeInline' in the CSP.
+    default: true
+  - name: self
+    description: When true, adds 'self' to CSP. Set to false to not include 'self' in the CSP.
+    default: true
+  - name: https
+    description: When true, adds 'https' to CSP. Set to false to not include 'https' in the CSP.
+    default: true
+  - name: http
+    description: When true, adds 'http' to CSP. Set to false to not include 'http' in the CSP.
+    default: true
   - name: path
     description: The glob expressions of path(s) that should invoke the CSP nonce edge function. Can be a string or array of strings.
     default: "/*"

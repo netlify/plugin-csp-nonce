@@ -2,13 +2,18 @@
 // @ts-ignore
 import type { Config, Context } from "netlify:edge";
 // @ts-ignore
-import { csp } from "https://deno.land/x/csp_nonce_html_transformer@v2.0.1/src/index.ts";
+import { csp } from "https://deno.land/x/csp_nonce_html_transformer@v2.1.0/src/index.ts";
 // @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
 
 type Params = {
   reportOnly: boolean;
   reportUri?: string;
+  strictDynamic: boolean,
+  unsafeInline: boolean,
+  self: boolean,
+  https: boolean,
+  http: boolean,
   unsafeEval: boolean;
   path: string | string[];
   excludedPath: string[];
