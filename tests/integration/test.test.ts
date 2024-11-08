@@ -94,6 +94,19 @@ describe("GET /", function () {
         expect(script.attribs.nonce).to.eql(nonce);
       }
     });
+    it("has set the nonce attribute on the link preload elements for scripts", () => {
+      const csp = parseContentSecurityPolicy(
+        response.headers.get("content-security-policy") || ""
+      );
+      const scriptsrc = csp.get("script-src");
+      const nonce = scriptsrc
+        ?.find((v) => v.startsWith("'nonce-"))
+        ?.slice("'nonce-".length, -1);
+      const links = $('link[rel="preload"][as="script"]');
+      for (const link of links) {
+        expect(link.attribs.nonce).to.eql(nonce);
+      }
+    });
   });
 });
 
