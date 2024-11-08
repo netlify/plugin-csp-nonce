@@ -24,5 +24,5 @@ jobs:
       - run: npm install netlify-cli -g
       - run: npm install
       - run: netlify build --offline
-      - run: npm test
-      - run: HOST='https://deploy-preview-${{ github.event.pull_request.number }}--csp-nonce.netlify.app' npm test
+      - run: npm test -- --reporter=verbose
+      - run: HOST='https://deploy-preview-${{ github.event.pull_request.number }}--csp-nonce.netlify.app' npm test -- --reporter=verbose
