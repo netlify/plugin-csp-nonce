@@ -1,7 +1,7 @@
 import parseContentSecurityPolicy from "content-security-policy-parser";
 import * as cheerio from "cheerio";
 import { readFile } from "node:fs/promises";
-
+import { env } from "node:process";
 import { afterAll, beforeAll, expect, it, describe, beforeEach } from "vitest";
 import { serve } from "./helpers";
 
@@ -29,18 +29,25 @@ expect.addSnapshotSerializer({
 })
 
 let baseURL: string;
-
-let cleanup: () => Promise<void>;
-
-beforeAll(async () => {
-  [baseURL, cleanup] = await serve({
-    waitForFunctions: ["__csp-nonce"],
+if (env.HOST) {
+  baseURL = env.HOST;
+} else {
+  let cleanup: () => Promise<void>;
+  
+  beforeAll(async () => {
+    [baseURL, cleanup] = await serve({
+      waitForFunctions: ["__csp-nonce"],
+    });
   });
-});
+  
+  afterAll(async () => {
+    if (cleanup) {
+      await cleanup()
+    }
+  });
+}
 
-afterAll(async () => {
-  await cleanup()
-});
+
 
 describe("GET /", function () {
   let response: Response;
@@ -72,7 +79,7 @@ describe("GET /", function () {
       expect(csp.get("img-src")).to.eql(["'self'", "blob:", "data:"]);
     });
     it("has correct script-src directive", () => {
-      const script = csp.get("script-src");
+      const script = csp.get("script-src")!;
       const nonce = /^'nonce-[-A-Za-z0-9+/]{32}'$/;
       expect(script.find((value) => nonce.test(value))).to.match(nonce);
       expect(script.includes("'strict-dynamic'")).to.eql(true);
