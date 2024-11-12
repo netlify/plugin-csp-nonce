@@ -11,7 +11,10 @@ defaults:
 
 jobs:
   test-npm-package:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -20,5 +23,6 @@ jobs:
           cache: npm
       - run: npm install netlify-cli -g
       - run: npm install
+      - run: netlify build --offline
       - run: npm test
       - run: HOST='https://deploy-preview-${{ github.event.pull_request.number }}--csp-nonce.netlify.app' npm test

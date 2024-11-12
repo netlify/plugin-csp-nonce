@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import fs, { copyFileSync } from "node:fs";
+import { copyFile, mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath } from "node:url";
 import { getBuildInfo } from "@netlify/build-info/node";
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 async function projectUsesNextJS() {
   for (const framework of (await getBuildInfo()).frameworks) {
@@ -18,7 +18,6 @@ async function projectUsesNextJS() {
 export const onPreBuild = async ({
   inputs,
   netlifyConfig,
-  utils,
   constants,
 }) => {
   const { build } = netlifyConfig;
@@ -36,10 +35,9 @@ export const onPreBuild = async ({
   // but 0 to 100 is also supported, along with a trailing %
   const distribution = build.environment.CSP_NONCE_DISTRIBUTION;
   if (!!distribution) {
-    const threshold =
-      distribution.endsWith("%") || parseFloat(distribution) > 1
-        ? Math.max(parseFloat(distribution) / 100, 0)
-        : Math.max(parseFloat(distribution), 0);
+    const threshold = distribution.endsWith("%") || parseFloat(distribution) > 1
+      ? Math.max(parseFloat(distribution) / 100, 0)
+      : Math.max(parseFloat(distribution), 0);
     console.log(`  CSP_NONCE_DISTRIBUTION is set to ${threshold * 100}%`);
     if (threshold === 0) {
       console.log(`  Skipping.`);
@@ -50,13 +48,13 @@ export const onPreBuild = async ({
   console.log(`  Current working directory: ${process.cwd()}`);
 
   // make the directory in case it actually doesn't exist yet
-  await utils.run.command(`mkdir -p ${INTERNAL_EDGE_FUNCTIONS_SRC}`);
+  await mkdir(INTERNAL_EDGE_FUNCTIONS_SRC, {recursive: true});
   console.log(
-    `  Writing nonce edge function to ${INTERNAL_EDGE_FUNCTIONS_SRC}...`
+    `  Writing nonce edge function to ${INTERNAL_EDGE_FUNCTIONS_SRC}...`,
   );
-  copyFileSync(
+  await copyFile(
     resolve(__dirname, `./src/__csp-nonce.ts`),
-    `${INTERNAL_EDGE_FUNCTIONS_SRC}/__csp-nonce.ts`
+    `${INTERNAL_EDGE_FUNCTIONS_SRC}/__csp-nonce.ts`,
   );
 
   const usesNext = await projectUsesNextJS();
@@ -69,21 +67,21 @@ export const onPreBuild = async ({
     inputs.excludedPath.push("/_next/image");
   }
 
-  fs.writeFileSync(
+  await writeFile(
     `${INTERNAL_EDGE_FUNCTIONS_SRC}/__csp-nonce-inputs.json`,
-    JSON.stringify(inputs, null, 2)
+    JSON.stringify(inputs, null, 2),
   );
 
   // if no reportUri in config input, deploy function on site's behalf
   if (!inputs.reportUri) {
     // make the directory in case it actually doesn't exist yet
-    await utils.run.command(`mkdir -p ${INTERNAL_FUNCTIONS_SRC}`);
+    await mkdir(INTERNAL_FUNCTIONS_SRC, { recursive: true });
     console.log(
-      `  Writing violations logging function to ${INTERNAL_FUNCTIONS_SRC}...`
+      `  Writing violations logging function to ${INTERNAL_FUNCTIONS_SRC}...`,
     );
-    copyFileSync(
+    await copyFile(
       resolve(__dirname, `./src/__csp-violations.ts`),
-      `${INTERNAL_FUNCTIONS_SRC}/__csp-violations.ts`
+      `${INTERNAL_FUNCTIONS_SRC}/__csp-violations.ts`,
     );
   } else {
     console.log(`  Using ${inputs.reportUri} as report-uri directive...`);

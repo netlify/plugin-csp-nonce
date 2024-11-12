@@ -1,7 +1,3 @@
-import process from "node:process";
-
-export const baseURL = process.env.HOST || "http://127.0.0.1:8888";
-
 import { Buffer } from "node:buffer";
 import { ExecaError, execa } from "execa";
 import getPort from "get-port";
