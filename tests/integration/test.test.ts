@@ -143,3 +143,83 @@ describe("GET /main.css", function () {
     expect(response.headers.has("content-security-policy")).to.eql(false);
   });
 });
+
+
+describe("Origin response has csp with nonce and not all scripts have the nonce", () => {
+  let response: Response;
+  beforeAll(async () => {
+    response = await fetch(new URL(`/pre-existing-csp-with-nonce`, baseURL), {
+      headers: {
+        "x-nf-debug-logging": "true",
+      },
+    });
+  });
+
+  it("__csp-nonce edge function was invoked", () => {
+    expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
+    expect(response.headers.get("x-nf-edge-functions")).to.match(
+      /\b__csp-nonce\b/
+    );
+  });
+
+  it("responds with a 200 status", () => {
+    expect(response.status).to.eql(200);
+  });
+
+  it("responds with a content-security-policy header", () => {
+    expect(response.headers.has("content-security-policy")).to.eql(true);
+  });
+
+  describe("content-security-policy header", () => {
+    let csp: Map<string, string[]>;
+    beforeAll(async () => {
+      csp = parseContentSecurityPolicy(
+        response.headers.get("content-security-policy") || ""
+      );
+    });
+
+    it("has correct img-src directive", () => {
+      expect(csp.get("img-src")).to.eql(["'self'", "blob:", "data:"]);
+    });
+    it("has correct script-src directive and has not overridden the original nonce value", () => {
+      const script = csp.get("script-src")!;
+      const nonce = /^'nonce-[-A-Za-z0-9+/]{0,32}'$/;
+      expect(script.find((value) => nonce.test(value))).to.eql('nonce-meow');
+      expect(script.includes("'strict-dynamic'")).to.eql(true);
+      expect(script.includes("'unsafe-inline'")).to.eql(true);
+      expect(script.includes("'unsafe-eval'")).to.eql(true);
+      expect(script.includes("'self'")).to.eql(true);
+      expect(script.includes("https:")).to.eql(true);
+      expect(script.includes("http:")).to.eql(true);
+      expect(
+        script.includes("'sha256-/Cb4VxgL2aVP0MVDvbP0DgEOUv+MeNQmZX4yXHkn/c0='")
+      ).to.eql(true);
+    });
+    it("has correct report-uri directive", () => {
+      expect(csp.get("report-uri")).to.eql([
+        "/.netlify/functions/__csp-violations",
+      ]);
+    });
+  });
+
+  describe("html nonces", () => {
+    let $: cheerio.CheerioAPI;
+    beforeAll(async () => {
+      $ = cheerio.load(await response.text());
+    });
+
+    it("has not overridden the nonce attribute", () => {
+      const elements = $(".has-nonce");
+      for (const element of elements) {
+        expect(element.attribs.nonce).to.eql('nonce-meow');
+      }
+    });
+    
+    it("has not added the nonce attribute to elements which didn't have it in the original response", () => {
+      const elements = $(".does-not-have-nonce");
+      for (const element of elements) {
+        expect(element.attribs.nonce).to.eql(undefined);
+      }
+    });
+  });
+})
