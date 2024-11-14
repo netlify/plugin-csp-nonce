@@ -77,19 +77,19 @@ describe("GET /", function () {
 
   describe("html nonces", () => {
     let $: cheerio.CheerioAPI;
-    let nonce: string;
     beforeAll(async () => {
       $ = cheerio.load(await response.text());
+    });
+
+    it("has set the nonce attribute on the script elements", () => {
       const csp = parseContentSecurityPolicy(
         response.headers.get("content-security-policy") || ""
       );
       const scriptsrc = csp.get("script-src");
-      nonce = scriptsrc
+      const nonce = scriptsrc
         ?.find((v) => v.startsWith("'nonce-"))
         ?.slice("'nonce-".length, -1)!;
-    });
-
-    it("has set the nonce attribute on the script elements", () => {
+      
       const scripts = $("script");
       for (const script of scripts) {
         expect(script.attribs.nonce).to.eql(nonce);
@@ -97,6 +97,14 @@ describe("GET /", function () {
     });
     
     it("has set the nonce attribute on the link preload script elements", () => {
+      const csp = parseContentSecurityPolicy(
+        response.headers.get("content-security-policy") || ""
+      );
+      const scriptsrc = csp.get("script-src");
+      const nonce = scriptsrc
+        ?.find((v) => v.startsWith("'nonce-"))
+        ?.slice("'nonce-".length, -1)!;
+      
       const elements = $("link[rel=\"preload\"][as=\"script\"]");
       for (const element of elements) {
         expect(element.attribs.nonce).to.eql(nonce);
