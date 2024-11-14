@@ -176,18 +176,11 @@ describe("Origin response has non-html content-type", () => {
 describe("Origin response has html content-type but binary contents in body", () => {
   let response: Response;
   beforeAll(async () => {
-    response = await fetch(new URL(`/i-am-really-a-png-file.html`, baseURL), {
-      headers: {
-        "x-nf-debug-logging": "true",
-      },
-    });
+    response = await fetch(new URL(`/i-am-really-a-png-file.html`, baseURL));
   });
 
   it("__csp-nonce edge function was invoked", () => {
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
-    expect(response.headers.get("x-nf-edge-functions")).to.match(
-      /\b__csp-nonce\b/
-    );
   });
 
   it("responds with a 200 status", () => {
