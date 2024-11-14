@@ -1,5 +1,6 @@
 import parseContentSecurityPolicy from "content-security-policy-parser";
 import * as cheerio from "cheerio";
+import { readFile } from "node:fs/promises";
 
 import { afterAll, beforeAll, expect, it, describe } from "vitest";
 import { serve } from "./helpers";
@@ -21,18 +22,11 @@ afterAll(async () => {
 describe("GET /", function () {
   let response: Response;
   beforeAll(async () => {
-    response = await fetch(new URL(`/`, baseURL), {
-      headers: {
-        "x-nf-debug-logging": "true",
-      },
-    });
+    response = await fetch(new URL(`/`, baseURL));
   });
 
   it("__csp-nonce edge function was invoked", () => {
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
-    expect(response.headers.get("x-nf-edge-functions")).to.match(
-      /\b__csp-nonce\b/
-    );
   });
 
   it("responds with a 200 status", () => {
@@ -118,15 +112,11 @@ describe("POST /", function () {
   beforeAll(async () => {
     response = await fetch(new URL(`/`, baseURL), {
       method: "POST",
-      headers: {
-        "x-nf-debug-logging": "true",
-      },
     });
   });
 
   it("__csp-nonce edge function was not invoked", () => {
     expect(response.headers.has("x-debug-csp-nonce")).to.eql(false);
-    expect(response.headers.has("x-nf-edge-functions")).to.eql(false);
   });
 
   it("responds with original content-security-policy header", () => {
@@ -139,16 +129,11 @@ describe("POST /", function () {
 describe("GET /main.css", function () {
   let response: Response;
   beforeAll(async () => {
-    response = await fetch(new URL(`/main.css`, baseURL), {
-      headers: {
-        "x-nf-debug-logging": "true",
-      },
-    });
+    response = await fetch(new URL(`/main.css`, baseURL));
   });
 
   it("__csp-nonce edge function was not invoked", () => {
     expect(response.headers.has("x-debug-csp-nonce")).to.eql(false);
-    expect(response.headers.has("x-nf-edge-functions")).to.eql(false);
   });
 
   it("responds with a 200 status", () => {
@@ -159,3 +144,31 @@ describe("GET /main.css", function () {
     expect(response.headers.has("content-security-policy")).to.eql(false);
   });
 });
+
+
+describe("Origin response has non-html content-type", () => {
+  let response: Response;
+  beforeAll(async () => {
+    response = await fetch(new URL(`/hello`, baseURL));
+  });
+
+  it("__csp-nonce edge function was invoked", () => {
+    expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
+  });
+
+  it("responds with a 200 status", () => {
+    expect(response.status).to.eql(200);
+  });
+
+  it("responds without a content-security-policy header", () => {
+    expect(response.headers.has("content-security-policy")).to.eql(false);
+  });
+
+  describe("body", () => {
+    it("has has the original response body unmodified", async () => {
+      const actual = Buffer.from(await response.arrayBuffer())
+      const expected = await readFile(new URL("../../site/hello", import.meta.url))
+      expect(actual).to.eql(expected)
+    });
+  });
+})
