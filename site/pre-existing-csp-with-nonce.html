@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/main.css" />
+  <link class="does-not-have-nonce" rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js" />
+  <link class="has-nonce" nonce="nonce-meow" rel="preload" as="script"
+    href="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" />
+</head>
+
+<body>
+  <script class="has-nonce" nonce="nonce-meow"
+    src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script class="does-not-have-nonce">
+    document.write("<p>❌ nay</p>");
+  </script>
+  <script class="has-nonce" nonce="nonce-meow">
+    document.write("<p>✅ yay</p>");
+    confetti();
+  </script>
+  <script class="does-not-have-nonce" nonce="nonce-meow"
+    src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+</body>
+
+</html>

@@ -1,2 +1,4 @@
 /
   Content-Security-Policy: img-src 'self' blob: data:; script-src 'sha256-/Cb4VxgL2aVP0MVDvbP0DgEOUv+MeNQmZX4yXHkn/c0='
+/pre-existing-csp-with-nonce.html
+  Content-Security-Policy: img-src 'self' blob: data:; script-src 'nonce-meow' 'strict-dynamic' 'unsafe-inline' 'unsafe-eval' 'self' https: http: 'sha256-/Cb4VxgL2aVP0MVDvbP0DgEOUv+MeNQmZX4yXHkn/c0='; report-uri /.netlify/functions/__csp-violations
