@@ -1,6 +1,6 @@
 # @netlify/plugin-csp-nonce
 
-Use a [nonce](https://content-security-policy.com/nonce/) for the `script-src` directive of your Content Security Policy (CSP) to help prevent [cross-site scripting (XSS)](https://developer.mozilla.org/en-US/docs/Web/Security/Types_of_attacks#cross-site_scripting_xss) attacks.
+Use a [nonce](https://content-security-policy.com/nonce/) for the `script-src` (and optionally `style-src`) directive of your Content Security Policy (CSP) to help prevent [cross-site scripting (XSS)](https://developer.mozilla.org/en-US/docs/Web/Security/Types_of_attacks#cross-site_scripting_xss) attacks.
 
 This plugin deploys an edge function that adds a response header and transforms the HTML response body to contain a unique nonce on every request, along with an optional function to log CSP violations.
 
@@ -69,6 +69,12 @@ The glob expressions of path(s) that should invoke the CSP nonce edge function. 
 _Default: `[]`_
 
 The glob expressions of path(s) that _should not_ invoke the CSP nonce edge function. Must be an array of strings. This value gets spread with common non-html filetype extensions (`*.css`, `*.js`, `*.svg`, etc).
+
+#### `styleSrc`
+
+_Default: `false`_
+
+When true, adds nonce to the `style-src` directive of your Content Security Policy to prevent attackers from modifying the contents or appearance of your page.
 
 ## Debugging
 

@@ -15,6 +15,7 @@ type Params = {
   unsafeEval: boolean;
   path: string | string[];
   excludedPath: string[];
+  styleSrc: boolean;
 };
 const params = inputs as Params;
 
@@ -76,7 +77,10 @@ const handler = async (request: Request, context: Context) => {
     `https:`,
     `http:`,
   ].filter(Boolean);
-  const scriptSrc = `script-src ${rules.join(" ")}`;
+
+  const joinedRules = rules.join(" ");
+  const scriptSrc = `script-src ${joinedRules}`;
+  const styleSrc = `style-src ${joinedRules}`;
   const reportUri = `report-uri ${
     params.reportUri || "/.netlify/functions/__csp-violations"
   }`;
@@ -94,6 +98,12 @@ const handler = async (request: Request, context: Context) => {
           // https://github.com/netlify/plugin-csp-nonce/issues/72
           return d.replace("script-src ", `${scriptSrc} `).trim();
         }
+        // intentionally add trailing space to avoid mangling `style-src-elem`
+        if (params.styleSrc && d.startsWith("style-src ")) {
+          // append with trailing space to include any user-supplied values
+          // https://github.com/netlify/plugin-csp-nonce/issues/72
+          return d.replace("style-src ", `${styleSrc} `).trim();
+        }
         // intentionally omit report-uri: theirs should take precedence
         return d;
       })
@@ -102,6 +112,9 @@ const handler = async (request: Request, context: Context) => {
     if (!directives.find((d) => d.startsWith("script-src "))) {
       directives.push(scriptSrc);
     }
+    if (params.styleSrc && !directives.find((d) => d.startsWith("style-src "))) {
+      directives.push(styleSrc);
+    }
     if (!directives.find((d) => d.startsWith("report-uri"))) {
       directives.push(reportUri);
     }
@@ -109,11 +122,16 @@ const handler = async (request: Request, context: Context) => {
     response.headers.set(header, value);
   } else {
     // make a new ruleset of directives if no CSP present
-    const value = [scriptSrc, reportUri].join("; ");
+    const value = [scriptSrc, params.styleSrc && styleSrc, reportUri].filter(Boolean).join("; ");
     response.headers.set(header, value);
   }
 
   const querySelectors = ["script", 'link[rel="preload"][as="script"]'];
+  if (params.styleSrc) {
+    querySelectors.push("style");
+    querySelectors.push('link[rel="preload"][as="style"]');
+  }
+  
   return new HTMLRewriter()
     .on(querySelectors.join(","), {
       element(element: HTMLElement) {
