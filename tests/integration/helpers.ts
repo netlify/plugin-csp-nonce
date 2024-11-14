@@ -43,6 +43,7 @@ export const serve = async ({
 
       if (Buffer.isBuffer(data)) {
         const message = stripAnsi(data.toString("utf8"));
+        console.log({message})
 
         if (
           message.includes(
@@ -57,11 +58,16 @@ export const serve = async ({
             /◈ Loaded edge function (?<name>[\w-]+)/.exec(message)?.groups
               ?.name ?? null;
 
+          console.log({match})
+
           if (match !== null && functionsReady.has(match)) {
+            console.log('debug 1')
             functionsReady.set(match, true);
           }
         }
-
+        
+        console.log('hasServerStarted', hasServerStarted)
+        console.log('Array.from(functionsReady.values()).every(Boolean)', Array.from(functionsReady.values()).every(Boolean))
         if (
           hasServerStarted &&
           Array.from(functionsReady.values()).every(Boolean)
