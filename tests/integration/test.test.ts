@@ -2,8 +2,31 @@ import parseContentSecurityPolicy from "content-security-policy-parser";
 import * as cheerio from "cheerio";
 import { readFile } from "node:fs/promises";
 
-import { afterAll, beforeAll, expect, it, describe } from "vitest";
+import { afterAll, beforeAll, expect, it, describe, beforeEach } from "vitest";
 import { serve } from "./helpers";
+
+
+function isCheerioAPIShape(val) {
+  const props = ['contains', 'extract', 'html', 'merge', 'parseHTML', 'root', 'text', 'xml', 'load', '_root', '_options', 'fn'];
+  for (const prop of props) {
+    if (!Object.hasOwn(val, prop)) {
+      return false;
+    }
+  }
+  return true;
+}
+expect.addSnapshotSerializer({
+  serialize($, config, indentation, depth, refs, printer) {
+    const elements = $('script[nonce]:not([nonce=""]),link[rel="preload"][as="script"][nonce]:not([nonce=""])');
+    for (const element of elements) {
+      element.attribs.nonce = "<placeholder_for_snapshop_test>"
+    }
+    return $.html()
+  },
+  test(val) {
+    return isCheerioAPIShape(val)
+  },
+})
 
 let baseURL: string;
 
@@ -21,7 +44,7 @@ afterAll(async () => {
 
 describe("GET /", function () {
   let response: Response;
-  beforeAll(async () => {
+  beforeEach(async () => {
     response = await fetch(new URL(`/`, baseURL));
   });
 
@@ -39,7 +62,7 @@ describe("GET /", function () {
 
   describe("content-security-policy header", () => {
     let csp: Map<string, string[]>;
-    beforeAll(async () => {
+    beforeEach(async () => {
       csp = parseContentSecurityPolicy(
         response.headers.get("content-security-policy") || ""
       );
@@ -71,7 +94,7 @@ describe("GET /", function () {
 
   describe("html nonces", () => {
     let $: cheerio.CheerioAPI;
-    beforeAll(async () => {
+    beforeEach(async () => {
       $ = cheerio.load(await response.text());
     });
 
@@ -83,13 +106,13 @@ describe("GET /", function () {
       const nonce = scriptsrc
         ?.find((v) => v.startsWith("'nonce-"))
         ?.slice("'nonce-".length, -1)!;
-      
+
       const scripts = $("script");
       for (const script of scripts) {
         expect(script.attribs.nonce).to.eql(nonce);
       }
     });
-    
+
     it("has set the nonce attribute on the link preload script elements", () => {
       const csp = parseContentSecurityPolicy(
         response.headers.get("content-security-policy") || ""
@@ -98,13 +121,17 @@ describe("GET /", function () {
       const nonce = scriptsrc
         ?.find((v) => v.startsWith("'nonce-"))
         ?.slice("'nonce-".length, -1)!;
-      
+
       const elements = $("link[rel=\"preload\"][as=\"script\"]");
       for (const element of elements) {
         expect(element.attribs.nonce).to.eql(nonce);
       }
     });
   });
+
+  it('html snapshot with filtered nonce', async () => {
+    expect(cheerio.load(await response.text())).toMatchSnapshot()
+  })
 });
 
 describe("POST /", function () {
