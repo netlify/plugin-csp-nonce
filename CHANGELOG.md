@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.1-alpha.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.0...v1.3.1-alpha.1) (2024-11-15)
+
+
+### Bug Fixes
+
+* **refactor:** use csp_nonce_html_transformer library ([#96](https://github.com/netlify/plugin-csp-nonce/issues/96)) ([abefa61](https://github.com/netlify/plugin-csp-nonce/commit/abefa61f044222cd1dc30c3bbb9b4a6c6474b0e8))
+
+
+### Miscellaneous Chores
+
+* release 1.3.1-alpha.1 ([fa0422a](https://github.com/netlify/plugin-csp-nonce/commit/fa0422aecb283f5b9754bb441e4885ed58462f86))
+
 ## [1.3.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.2.13...v1.3.0) (2024-11-05)
 
 
