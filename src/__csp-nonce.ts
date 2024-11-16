@@ -1,17 +1,14 @@
 /* eslint-disable */
 // @ts-ignore
-import type { Config, Context } from "netlify:edge";
+import type { Config, Context } from "@netlify/edge-functions";
 // @ts-ignore
 
-import init from 'https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@129556d111c752ab9ef9b2febeb0add99779ec4f/dist/html_rewriter.js'
+import init from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@d51514b/pkg/html_rewriter.js"
+import { HTMLRewriterWrapper } from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@d51514b/src/html_rewriter_wrapper.ts"
 
-import { HTMLRewriterWrapper } from 'https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@129556d111c752ab9ef9b2febeb0add99779ec4f/dist/html_rewriter_wrapper.js'
+await init();
+const HTMLRewriter = HTMLRewriterWrapper()
 
-const HTMLRewriter = HTMLRewriterWrapper(
-    init(fetch(new URL('https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@129556d111c752ab9ef9b2febeb0add99779ec4f/dist/html_rewriter_bg.wasm', import.meta.url))),
-)
-
-// import { HTMLRewriter } from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@129556d111c752ab9ef9b2febeb0add99779ec4f/browser.js";
 // @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
 
@@ -145,8 +142,6 @@ async function csp(originalResponse: Response, params?: Params) {
   }
 
   const querySelectors = ["script", 'link[rel="preload"][as="script"]'];
-  await init();
-  const HTMLRewriter = HTMLRewriterWrapper();
   return new HTMLRewriter()
     .on(querySelectors.join(","), {
       element(element: Element) {
@@ -157,7 +152,9 @@ async function csp(originalResponse: Response, params?: Params) {
 }
 
 const handler = async (request: Request, context: Context) => {
-  const response = await context.next(request);
+  console.time(`context.next: ${request.headers.get('x-nf-request-id')}`)
+  const response = await context.next();
+  console.timeEnd(`context.next: ${request.headers.get('x-nf-request-id')}`)
 
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
