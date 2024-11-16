@@ -2,7 +2,7 @@
 // @ts-ignore
 import type { Config, Context } from "netlify:edge";
 // @ts-ignore
-import { csp } from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@bf2fa8f2671c6475c6ab542e5e6c89fda7eef4e7/src/index.ts";
+import { csp } from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@b96e14a6c497b3d38df224c71445de0eacc1b82b/src/index.ts";
 // @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
 
