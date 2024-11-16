@@ -3,11 +3,10 @@
 import type { Config, Context } from "@netlify/edge-functions";
 // @ts-ignore
 
-import init from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@d51514b/pkg/html_rewriter.js"
-import { HTMLRewriterWrapper } from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@d51514b/src/html_rewriter_wrapper.ts"
+import init from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@cee0ce9/pkg/html_rewriter.js"
+import { HTMLRewriter } from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@cee0ce9/src/html_rewriter_wrapper.ts"
 
 await init();
-const HTMLRewriter = HTMLRewriterWrapper()
 
 // @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
