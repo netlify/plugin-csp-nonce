@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1-alpha.2](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.1-alpha.1...v1.3.1-alpha.2) (2024-11-19)
+
+
+### Bug Fixes
+
+* Bump csp nonce html rewriter version ([#106](https://github.com/netlify/plugin-csp-nonce/issues/106)) ([be23051](https://github.com/netlify/plugin-csp-nonce/commit/be230516e4f316df94c04d0916a1146885d37aee))
+
 ## [1.3.1-alpha.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.0...v1.3.1-alpha.1) (2024-11-15)
 
 
