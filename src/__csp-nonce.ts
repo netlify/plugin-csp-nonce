@@ -30,12 +30,12 @@ params.self = true;
 params.https = true;
 params.http = true;
 
-const handler = async (request: Request, context: Context) => {
-  const response = await context.next(request);
+const handler = async (_request: Request, context: Context) => {
+  const response = await context.next();
 
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
-  return csp(response, params)
+  return csp(response, params);
 };
 
 // Top 50 most common extensions (minus .html and .htm) according to Humio
