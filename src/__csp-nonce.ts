@@ -35,7 +35,9 @@ const handler = async (request: Request, context: Context) => {
 
   // for debugging which routes use this edge function
   response.headers.set("x-debug-csp-nonce", "invoked");
-  return csp(response, params)
+  const transformedResponse = await csp(response, params);
+  const body = await transformedResponse.bytes();
+  return new Response(body, transformedResponse);
 };
 
 // Top 50 most common extensions (minus .html and .htm) according to Humio
