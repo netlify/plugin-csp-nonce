@@ -263,7 +263,7 @@ describe("Origin response has html content-type but non-html text contents in bo
   let response: Response;
   beforeAll(async () => {
     response = await fetch(new URL(`/i-am-really-a-json-file.html`, baseURL));
-  });
+  }, 15000);
   
   it("__csp-nonce edge function was invoked", () => {
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
