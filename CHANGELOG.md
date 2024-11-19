@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3-alpha.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.2-alpha.1...v1.3.3-alpha.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* context.next defaults to the request object that is passed in ([#109](https://github.com/netlify/plugin-csp-nonce/issues/109)) ([4e17183](https://github.com/netlify/plugin-csp-nonce/commit/4e171832cc1a2bf8b30057b312390d34da79fe32))
+
 ## [1.3.1-alpha.2](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.1-alpha.1...v1.3.1-alpha.2) (2024-11-19)
 
 
