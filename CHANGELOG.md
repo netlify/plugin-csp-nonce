@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4-alpha.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.3-alpha.1...v1.3.4-alpha.1) (2024-11-20)
+
+
+### Bug Fixes
+
+* inject function only on prebuild ([#111](https://github.com/netlify/plugin-csp-nonce/issues/111)) ([30532e3](https://github.com/netlify/plugin-csp-nonce/commit/30532e3c24be07eaf74a8c1e62a2201ae04b1769))
+
 ## [1.3.3-alpha.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.2-alpha.1...v1.3.3-alpha.1) (2024-11-19)
 
 
