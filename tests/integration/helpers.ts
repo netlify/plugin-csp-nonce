@@ -30,6 +30,7 @@ export const serve = async ({
   const proc = execa(...command(port), {
     all: true,
     cancelSignal: abortController.signal,
+    env: { RUN_NETLIFY_CSP_NONCE_PLUGIN_TESTS: "1" },
   });
 
   await new Promise<void>((resolve) => {
