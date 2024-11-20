@@ -91,5 +91,3 @@ export const onPreBuild = async ({
 
   console.log(`  Done.`);
 };
-
-export const onPreDev = onPreBuild;
