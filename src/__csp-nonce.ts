@@ -2,10 +2,10 @@
 // @ts-ignore
 import type { Config, Context } from "netlify:edge";
 // @ts-ignore
-import { csp } from "https://deno.land/x/csp_nonce_html_transformer@v2.1.4/src/index.ts";
+import { csp, init } from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@1716599/src/index.ts";
 // @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
-
+await init()
 type Params = {
   reportOnly: boolean;
   reportUri?: string;

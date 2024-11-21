@@ -93,9 +93,9 @@ export const onPreBuild = async ({
 };
 
 export const onPreDev = async ({ inputs, netlifyConfig, utils, constants }) => {
-  if (!process.env.RUN_NETLIFY_CSP_NONCE_PLUGIN_TESTS) {
-    return;
-  }
+  // if (!process.env.RUN_NETLIFY_CSP_NONCE_PLUGIN_TESTS) {
+  //   return;
+  // }
 
   return onPreBuild({
     inputs,
