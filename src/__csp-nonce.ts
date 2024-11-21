@@ -2,7 +2,7 @@
 // @ts-ignore
 import type { Config, Context } from "netlify:edge";
 // @ts-ignore
-import { csp, init } from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@1716599/src/index.ts";
+import { csp, init } from "https://cdn.jsdelivr.net/gh/netlify/csp_nonce_html_transformer@8029640/src/index.ts";
 // @ts-ignore
 import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
 await init()
@@ -31,6 +31,7 @@ params.https = true;
 params.http = true;
 
 const handler = async (_request: Request, context: Context) => {
+  console.log("x-debug-csp-nonce", "invoked 8029640");
   const response = await context.next();
 
   // for debugging which routes use this edge function
