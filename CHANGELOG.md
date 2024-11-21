@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.5-alpha.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.4-alpha.1...v1.3.5-alpha.1) (2024-11-21)
+
+
+### Bug Fixes
+
+* use version 2.1.5 of csp_nonce_html_transformer which fixes a potential race condition with importing and instantiating the wasm instance ([#113](https://github.com/netlify/plugin-csp-nonce/issues/113)) ([0253179](https://github.com/netlify/plugin-csp-nonce/commit/0253179f11f5ab339652fb720dbc383ab702cd90))
+
 ## [1.3.4-alpha.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.3-alpha.1...v1.3.4-alpha.1) (2024-11-20)
 
 
