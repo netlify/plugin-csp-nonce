@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.5](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.5-alpha.1...v1.3.5) (2024-11-21)
+
+
+### Miscellaneous Chores
+
+* **main:** release 1.3.5 ([#116](https://github.com/netlify/plugin-csp-nonce/issues/116)) ([dea7e8e](https://github.com/netlify/plugin-csp-nonce/commit/dea7e8e8d01fa9cfa6bafd703922a51e7d2bb548))
+
 ## [1.3.5-alpha.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.4-alpha.1...v1.3.5-alpha.1) (2024-11-21)
 
 
