@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.6](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.5...v1.3.6) (2024-11-25)
+
+
+### Bug Fixes
+
+* use entrypoint which embeds the wasm instead of requiring it to be fetched over the network when deployed as a Netlify Edge Function ([#118](https://github.com/netlify/plugin-csp-nonce/issues/118)) ([e25d4af](https://github.com/netlify/plugin-csp-nonce/commit/e25d4af52852240304f4211da7ca52fee2f97eb0))
+
 ## [1.3.5](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.5-alpha.1...v1.3.5) (2024-11-21)
 
 
