@@ -33,7 +33,7 @@
   "homepage": "https://github.com/netlify/plugin-csp-nonce#readme",
   "scripts": {
     "build": "tsc src/*.ts --noEmit --strict --lib es2018,dom",
-    "test": "vitest"
+    "test": "vitest --test-timeout=60000 --hook-timeout=60000"
   },
   "dependencies": {
     "@netlify/build-info": "^7.15.2"

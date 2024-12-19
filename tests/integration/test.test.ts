@@ -1,8 +1,8 @@
 import parseContentSecurityPolicy from "content-security-policy-parser";
 import * as cheerio from "cheerio";
 import { readFile } from "node:fs/promises";
-
-import { afterAll, beforeAll, expect, it, describe, beforeEach } from "vitest";
+import { env } from "node:process";
+import { afterAll, beforeAll, beforeEach, expect, it, describe } from "vitest";
 import { serve } from "./helpers";
 
 
@@ -29,18 +29,25 @@ expect.addSnapshotSerializer({
 })
 
 let baseURL: string;
-
-let cleanup: () => Promise<void>;
-
-beforeAll(async () => {
-  [baseURL, cleanup] = await serve({
-    waitForFunctions: ["__csp-nonce"],
+if (env.HOST) {
+  baseURL = env.HOST;
+} else {
+  let cleanup: () => Promise<void>;
+  
+  beforeAll(async () => {
+    [baseURL, cleanup] = await serve({
+      waitForFunctions: ["__csp-nonce"],
+    });
   });
-});
+  
+  afterAll(async () => {
+    if (cleanup) {
+      await cleanup()
+    }
+  });
+}
 
-afterAll(async () => {
-  await cleanup()
-});
+
 
 describe("GET /", function () {
   let response: Response;
@@ -49,14 +56,17 @@ describe("GET /", function () {
   });
 
   it("__csp-nonce edge function was invoked", () => {
+    console.log(`running "__csp-nonce edge function was invoked"`)
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
   });
 
   it("responds with a 200 status", () => {
+    console.log(`running "responds with a 200 status"`)
     expect(response.status).to.eql(200);
   });
 
   it("responds with a content-security-policy header", () => {
+    console.log(`running "responds with a content-security-policy header"`)
     expect(response.headers.has("content-security-policy")).to.eql(true);
   });
 
@@ -69,10 +79,12 @@ describe("GET /", function () {
     });
 
     it("has correct img-src directive", () => {
+      console.log(`running "has correct img-src directive"`)
       expect(csp.get("img-src")).to.eql(["'self'", "blob:", "data:"]);
     });
     it("has correct script-src directive", () => {
-      const script = csp.get("script-src");
+      const script = csp.get("script-src")!;
+      console.log(`running "has correct script-src directive"`)
       const nonce = /^'nonce-[-A-Za-z0-9+/]{32}'$/;
       expect(script.find((value) => nonce.test(value))).to.match(nonce);
       expect(script.includes("'strict-dynamic'")).to.eql(true);
@@ -86,6 +98,7 @@ describe("GET /", function () {
       ).to.eql(true);
     });
     it("has correct report-uri directive", () => {
+      console.log(`running "has correct report-uri directive"`)
       expect(csp.get("report-uri")).to.eql([
         "/.netlify/functions/__csp-violations",
       ]);
@@ -99,6 +112,7 @@ describe("GET /", function () {
     });
 
     it("has set the nonce attribute on the script elements", () => {
+      console.log(`running "has set the nonce attribute on the script elements"`)
       const csp = parseContentSecurityPolicy(
         response.headers.get("content-security-policy") || ""
       );
@@ -114,6 +128,7 @@ describe("GET /", function () {
     });
 
     it("has set the nonce attribute on the link preload script elements", () => {
+      console.log(`running "has set the nonce attribute on the link preload script elements"`)
       const csp = parseContentSecurityPolicy(
         response.headers.get("content-security-policy") || ""
       );
@@ -136,17 +151,19 @@ describe("GET /", function () {
 
 describe("POST /", function () {
   let response: Response;
-  beforeAll(async () => {
+  beforeEach(async () => {
     response = await fetch(new URL(`/`, baseURL), {
       method: "POST",
     });
   });
   
   it("__csp-nonce edge function was not invoked", () => {
+    console.log(`running "__csp-nonce edge function was not invoked"`)
     expect(response.headers.has("x-debug-csp-nonce")).to.eql(false);
   });
   
   it("responds with original content-security-policy header", () => {
+    console.log(`running "responds with original content-security-policy header"`)
     expect(response.headers.get("content-security-policy")).to.eql(
       "img-src 'self' blob: data:; script-src 'sha256-/Cb4VxgL2aVP0MVDvbP0DgEOUv+MeNQmZX4yXHkn/c0='"
     );
@@ -155,19 +172,22 @@ describe("POST /", function () {
 
 describe("GET /main.css", function () {
   let response: Response;
-  beforeAll(async () => {
+  beforeEach(async () => {
     response = await fetch(new URL(`/main.css`, baseURL));
   });
   
   it("__csp-nonce edge function was not invoked", () => {
+    console.log(`running "__csp-nonce edge function was not invoked"`)
     expect(response.headers.has("x-debug-csp-nonce")).to.eql(false);
   });
   
   it("responds with a 200 status", () => {
+    console.log(`running "responds with a 200 status"`)
     expect(response.status).to.eql(200);
   });
   
   it("responds without a content-security-policy header", () => {
+    console.log(`running "responds without a content-security-policy header"`)
     expect(response.headers.has("content-security-policy")).to.eql(false);
   });
 });
@@ -175,24 +195,28 @@ describe("GET /main.css", function () {
 
 describe("Origin response has non-html content-type", () => {
   let response: Response;
-  beforeAll(async () => {
+  beforeEach(async () => {
     response = await fetch(new URL(`/hello`, baseURL));
   });
   
   it("__csp-nonce edge function was invoked", () => {
+    console.log(`running "__csp-nonce edge function was invoked"`)
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
   });
   
   it("responds with a 200 status", () => {
+    console.log(`running "responds with a 200 status"`)
     expect(response.status).to.eql(200);
   });
   
   it("responds without a content-security-policy header", () => {
+    console.log(`running "responds without a content-security-policy header"`)
     expect(response.headers.has("content-security-policy")).to.eql(false);
   });
   
   describe("body", () => {
     it("has has the original response body unmodified", async () => {
+      console.log(`running "has has the original response body unmodified"`)
       const actual = Buffer.from(await response.arrayBuffer())
       const expected = await readFile(new URL("../../site/hello", import.meta.url))
       expect(actual).to.eql(expected)
@@ -202,34 +226,39 @@ describe("Origin response has non-html content-type", () => {
 
 describe("Origin response has html content-type but binary contents in body", () => {
   let response: Response;
-  beforeAll(async () => {
+  beforeEach(async () => {
     response = await fetch(new URL(`/i-am-really-a-png-file.html`, baseURL));
   });
   
   it("__csp-nonce edge function was invoked", () => {
+    console.log(`running "__csp-nonce edge function was invoked"`)
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
   });
   
   it("responds with a 200 status", () => {
+    console.log(`running "responds with a 200 status"`)
     expect(response.status).to.eql(200);
   });
   
   it("responds with a content-security-policy header", () => {
+    console.log(`running "responds with a content-security-policy header"`)
     expect(response.headers.has("content-security-policy")).to.eql(true);
   });
   
   describe("content-security-policy header", () => {
     let csp: Map<string, string[]>;
-    beforeAll(async () => {
+    beforeEach(async () => {
       csp = parseContentSecurityPolicy(
         response.headers.get("content-security-policy") || ""
       );
     });
     
     it("has correct img-src directive", () => {
+      console.log(`running "has correct img-src directive"`)
       expect(csp.get("img-src")).to.eql(["'self'", "blob:", "data:"]);
     });
     it("has correct script-src directive and has not overridden the original nonce value", () => {
+      console.log(`running "has correct script-src directive and has not overridden the original nonce value"`)
       const script = csp.get("script-src")!;
       const nonce = /^'nonce-[-A-Za-z0-9+/]{32}'$/;
       expect(script.find((value) => nonce.test(value))).to.match(nonce);
@@ -244,6 +273,7 @@ describe("Origin response has html content-type but binary contents in body", ()
       ).to.eql(true);
     });
     it("has correct report-uri directive", () => {
+      console.log(`running "has correct report-uri directive"`)
       expect(csp.get("report-uri")).to.eql([
         "/.netlify/functions/__csp-violations",
       ]);
@@ -252,6 +282,7 @@ describe("Origin response has html content-type but binary contents in body", ()
   
   describe("body", () => {
     it("has has the original response body unmodified", async () => {
+      console.log(`running "has has the original response body unmodified"`)
       const actual = Buffer.from(await response.arrayBuffer())
       const expected = await readFile(new URL("../../site/i-am-really-a-png-file.html", import.meta.url))
       expect(actual).to.eql(expected)
@@ -261,34 +292,39 @@ describe("Origin response has html content-type but binary contents in body", ()
 
 describe("Origin response has html content-type but non-html text contents in body", () => {
   let response: Response;
-  beforeAll(async () => {
+  beforeEach(async () => {
     response = await fetch(new URL(`/i-am-really-a-json-file.html`, baseURL));
   }, 15000);
   
   it("__csp-nonce edge function was invoked", () => {
+    console.log(`running "__csp-nonce edge function was invoked"`)
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
   });
   
   it("responds with a 200 status", () => {
+    console.log(`running "responds with a 200 status"`)
     expect(response.status).to.eql(200);
   });
   
   it("responds with a content-security-policy header", () => {
+    console.log(`running "responds with a content-security-policy header"`)
     expect(response.headers.has("content-security-policy")).to.eql(true);
   });
   
   describe("content-security-policy header", () => {
     let csp: Map<string, string[]>;
-    beforeAll(async () => {
+    beforeEach(async () => {
       csp = parseContentSecurityPolicy(
         response.headers.get("content-security-policy") || ""
       );
     });
     
     it("has correct img-src directive", () => {
+      console.log(`running "has correct img-src directive"`)
       expect(csp.get("img-src")).to.eql(["'self'", "blob:", "data:"]);
     });
     it("has correct script-src directive and has not overridden the original nonce value", () => {
+      console.log(`running "has correct script-src directive and has not overridden the original nonce value"`)
       const script = csp.get("script-src")!;
       const nonce = /^'nonce-[-A-Za-z0-9+/]{32}'$/;
       expect(script.find((value) => nonce.test(value))).to.match(nonce);
@@ -303,6 +339,7 @@ describe("Origin response has html content-type but non-html text contents in bo
       ).to.eql(true);
     });
     it("has correct report-uri directive", () => {
+      console.log(`running "has correct report-uri directive"`)
       expect(csp.get("report-uri")).to.eql([
         "/.netlify/functions/__csp-violations",
       ]);
@@ -311,6 +348,7 @@ describe("Origin response has html content-type but non-html text contents in bo
   
   describe("body", () => {
     it("has has the original response body unmodified", async () => {
+      console.log(`running "has has the original response body unmodified"`)
       const actual = Buffer.from(await response.arrayBuffer())
       const expected = await readFile(new URL("../../site/i-am-really-a-json-file.html", import.meta.url))
       expect(actual).to.eql(expected)
