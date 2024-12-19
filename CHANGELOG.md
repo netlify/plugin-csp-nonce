@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.7](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.6...v1.3.7) (2024-12-19)
+
+
+### Bug Fixes
+
+* use version 2.2.1 of csp_nonce_html_transformer which fixes an issue in the embedded wasm entrypoint where it was embedding the wasm but also fetching it over the network ([#120](https://github.com/netlify/plugin-csp-nonce/issues/120)) ([b56bccc](https://github.com/netlify/plugin-csp-nonce/commit/b56bcccf9fc3b3446a98616e1caca4afb963a3c0))
+
 ## [1.3.6](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.5...v1.3.6) (2024-11-25)
 
 
