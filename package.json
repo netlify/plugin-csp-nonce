@@ -36,6 +36,6 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@netlify/build-info": "^7.15.2"
+    "@netlify/build-info": "^8.0.0"
   }
 }
