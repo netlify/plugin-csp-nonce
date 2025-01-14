@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.8](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.7...v1.3.8) (2025-01-14)
+
+
+### Bug Fixes
+
+* Explicitly implement error bypass behavior instead of relying on the platform ([#123](https://github.com/netlify/plugin-csp-nonce/issues/123)) ([5c52f04](https://github.com/netlify/plugin-csp-nonce/commit/5c52f04e454ccae0c0fce682fbaadff923cd2383))
+* update @netlify/build-info to v8.0.0 ([#122](https://github.com/netlify/plugin-csp-nonce/issues/122)) ([10997a9](https://github.com/netlify/plugin-csp-nonce/commit/10997a91781433bfaf3f430da652886208aeec0d))
+
 ## [1.3.7](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.6...v1.3.7) (2024-12-19)
 
 
