@@ -31,11 +31,23 @@ params.https = true;
 params.http = true;
 
 const handler = async (_request: Request, context: Context) => {
-  const response = await context.next();
-
-  // for debugging which routes use this edge function
-  response.headers.set("x-debug-csp-nonce", "invoked");
-  return csp(response, params);
+  try {
+    const response = await context.next();
+    // for debugging which routes use this edge function
+    response.headers.set("x-debug-csp-nonce", "invoked");
+    return csp(response, params);
+  } catch {
+    /*
+      We catch all the throws and return undefined
+      The reason we do this is because returning undefined
+      will cause the next edge function in the chain to be
+      executed.
+      This is equivalent to setting the Edge Function's 
+      `config.onError` property to "bypass", but is handled 
+      completely by the Edge Function instead of by something else.
+    */
+    return void 0;
+  }
 };
 
 // Top 50 most common extensions (minus .html and .htm) according to Humio
