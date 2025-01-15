@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.9](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.8...v1.3.9) (2025-01-15)
+
+
+### Bug Fixes
+
+* update to 2.2.2 of the transformer library to avoid a warning being emitted to the console ([#125](https://github.com/netlify/plugin-csp-nonce/issues/125)) ([f1a0ef1](https://github.com/netlify/plugin-csp-nonce/commit/f1a0ef1852ce77b0d428c43af4d4f6547f62e7ef))
+
 ## [1.3.8](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.7...v1.3.8) (2025-01-14)
 
 
