@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.9...v1.4.0) (2025-01-20)
+
+
+### Features
+
+* allow self and unsafeInline as inputs ([#127](https://github.com/netlify/plugin-csp-nonce/issues/127)) ([0157428](https://github.com/netlify/plugin-csp-nonce/commit/01574286efe061dd885c6acb13d35fac79e86107))
+
 ## [1.3.9](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.8...v1.3.9) (2025-01-15)
 
 
