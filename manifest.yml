@@ -14,3 +14,9 @@ inputs:
   - name: excludedPath
     description: The glob expressions of path(s) that *should not* invoke the CSP nonce edge function. Must be an array of strings. This value gets spread with common non-html filetype extensions (*.css, *.js, *.svg, etc)
     default: []
+  - name: unsafeInline
+    description: When true, allows the execution of inline scripts, such as those defined within <script> tags or through onclick attributes.
+    default: true
+  - name: self
+    description: When true, restricts the execution of scripts to those that originate from the same origin (protocol, domain, and port) as the document.
+    default: true
