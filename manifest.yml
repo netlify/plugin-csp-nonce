@@ -5,6 +5,9 @@ inputs:
     default: true
   - name: reportUri
     description: The relative or absolute URL to report any violations. If not defined, violations are reported to the __csp-violations function, which this plugin deploys.
+  - name: strictDynamic
+    description: When true, dynamically trust scripts via nonce or hash instead of static allowlists, enhancing security.
+    default: true
   - name: unsafeEval
     description: When true, adds 'unsafe-eval' to CSP for easier adoption. Set to false to have a safer policy if your code and code dependencies does not use eval().
     default: true

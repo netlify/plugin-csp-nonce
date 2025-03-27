@@ -24,7 +24,7 @@ params.reportUri = params.reportUri || "/.netlify/functions/__csp-violations";
 // @ts-ignore
 params.distribution = Netlify.env.get("CSP_NONCE_DISTRIBUTION");
 
-params.strictDynamic = true;
+params.strictDynamic = params.strictDynamic ?? true;
 params.unsafeInline = params.unsafeInline ?? true;
 params.self = params.self ?? true;
 params.https = true;
