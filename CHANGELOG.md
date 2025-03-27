@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.4.0...v1.5.0) (2025-03-27)
+
+
+### Features
+
+* add strictDynamic as a config option ([#129](https://github.com/netlify/plugin-csp-nonce/issues/129)) ([84522aa](https://github.com/netlify/plugin-csp-nonce/commit/84522aab71f30335ebe48a7c082ae8332ac5bee2))
+
 ## [1.4.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.3.9...v1.4.0) (2025-01-20)
 
 
