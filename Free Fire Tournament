@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fire Tournament Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #212121;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #212121;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-weight: bold;
+            display: block;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group button {
+            background-color: #ff5722;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group button:hover {
+            background-color: #e64a19;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #212121;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Free Fire Tournament Registration</h1>
+        <p>Entry Fee: ₹40 | Winning Prize: ₹100</p>
+    </header>
+
+    <div class="container">
+        <h2>Register Now</h2>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="teamName">Gaming UID</label>
+                <input type="text" id="GamingUID" name="GamingUID" required placeholder="Enter your Gaming UID">
+            </div>
+
+            <div class="form-group">
+                <label for="YourName">Your Name</label>
+                <input type="text" id="YourName" name="YourName" required placeholder="Enter Your Name">
+            </div>
+
+            <div class="form-group">
+                <label for="player">Player Name</label>
+                <input type="text" id="player" name="player" required placeholder="Enter player name">
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Contact Number</label>
+                <input type="tel" id="contact" name="contact" required placeholder="Enter your contact number">
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>Powered by Free Fire Tournament</p>
+    </div>
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission for demo
+
+            const teamName = document.getElementById("teamName").value;
+            const player1 = document.getElementById("player1").value;
+            const player2 = document.getElementById("player2").value;
+            const contact = document.getElementById("contact").value;
+
+            alert(`Registration Successful!\nTeam: ${teamName}\nPlayers: ${player1}, ${player2}\nContact: ${contact}`);
+        });
+    </script>
+</body>
+</html>
