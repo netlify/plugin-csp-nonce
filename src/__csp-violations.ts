@@ -1,12 +1,11 @@
-/* eslint-disable */
-// @ts-ignore
+// @ts-ignore async missing await
 const handler = async (event) => {
   try {
     const { "csp-report": cspReport } = JSON.parse(event.body);
     if (cspReport) {
       console.log(JSON.stringify(cspReport));
     }
-  } catch (err) {
+  } catch {
     // ...the sound of silence
   }
   return {

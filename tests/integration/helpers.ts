@@ -50,15 +50,15 @@ export const serve = async ({
 
         if (
           message.includes(
-            `◈ Server now ready on http://localhost:${port.toString()}`
+            `Local dev server ready: http://localhost:${port.toString()}`
           )
         ) {
           hasServerStarted = true;
         }
 
-        if (message.includes("◈ Loaded edge function ")) {
+        if (message.includes("Loaded edge function ")) {
           const match =
-            /◈ Loaded edge function (?<name>[\w-]+)/.exec(message)?.groups
+            /Loaded edge function (?<name>[\w-]+)/.exec(message)?.groups
               ?.name ?? null;
 
           if (match !== null && functionsReady.has(match)) {

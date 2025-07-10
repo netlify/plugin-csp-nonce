@@ -1,10 +1,16 @@
-/* eslint-disable */
-// @ts-ignore
+// @ts-ignore cannot find module
 import type { Config, Context } from "netlify:edge";
-// @ts-ignore
+// @ts-ignore cannot find module
 import { csp } from "https://deno.land/x/csp_nonce_html_transformer@v2.2.2/src/index-embedded-wasm.ts";
-// @ts-ignore
-import inputs from "./__csp-nonce-inputs.json" assert { type: "json" };
+
+// Using `import ... with ...` syntax directly fails due to the node 18 type-checking we're running on this file,
+// but this syntax works fine in deno 1.46.3 and 2.x which is what the functions are bundled and run with.
+// We're able to sneak by the node syntax issues by using this `await import(...)` syntax instead of a direct import statement.
+// @ts-ignore top-level await
+const { default: inputs } = await import("./__csp-nonce-inputs.json", {
+  // @ts-ignore 'with' syntax
+  with: { type: "json" },
+});
 
 type Params = {
   reportOnly: boolean;
@@ -21,7 +27,7 @@ type Params = {
 };
 const params = inputs as Params;
 params.reportUri = params.reportUri || "/.netlify/functions/__csp-violations";
-// @ts-ignore
+// @ts-ignore Netlify
 params.distribution = Netlify.env.get("CSP_NONCE_DISTRIBUTION");
 
 params.strictDynamic = params.strictDynamic ?? true;
