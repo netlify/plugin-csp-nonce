@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.5.0...v1.5.1) (2025-07-10)
+
+
+### Bug Fixes
+
+* replace assert syntax to be forwards compatible ([#133](https://github.com/netlify/plugin-csp-nonce/issues/133)) ([813ea33](https://github.com/netlify/plugin-csp-nonce/commit/813ea333741348a52cce269d187e09e8fb2ef089))
+
 ## [1.5.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.4.0...v1.5.0) (2025-03-27)
 
 
