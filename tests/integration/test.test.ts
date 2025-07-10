@@ -5,9 +5,21 @@ import { readFile } from "node:fs/promises";
 import { afterAll, beforeAll, expect, it, describe, beforeEach } from "vitest";
 import { serve } from "./helpers";
 
-
 function isCheerioAPIShape(val) {
-  const props = ['contains', 'extract', 'html', 'merge', 'parseHTML', 'root', 'text', 'xml', 'load', '_root', '_options', 'fn'];
+  const props = [
+    "contains",
+    "extract",
+    "html",
+    "merge",
+    "parseHTML",
+    "root",
+    "text",
+    "xml",
+    "load",
+    "_root",
+    "_options",
+    "fn",
+  ];
   for (const prop of props) {
     if (!Object.hasOwn(val, prop)) {
       return false;
@@ -17,16 +29,18 @@ function isCheerioAPIShape(val) {
 }
 expect.addSnapshotSerializer({
   serialize($, config, indentation, depth, refs, printer) {
-    const elements = $('script[nonce]:not([nonce=""]),link[rel="preload"][as="script"][nonce]:not([nonce=""])');
+    const elements = $(
+      'script[nonce]:not([nonce=""]),link[rel="preload"][as="script"][nonce]:not([nonce=""])'
+    );
     for (const element of elements) {
-      element.attribs.nonce = "<placeholder_for_snapshop_test>"
+      element.attribs.nonce = "<placeholder_for_snapshop_test>";
     }
-    return $.html()
+    return $.html();
   },
   test(val) {
-    return isCheerioAPIShape(val)
+    return isCheerioAPIShape(val);
   },
-})
+});
 
 let baseURL: string;
 
@@ -39,7 +53,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await cleanup()
+  await cleanup();
 });
 
 describe("GET /", function () {
@@ -122,16 +136,16 @@ describe("GET /", function () {
         ?.find((v) => v.startsWith("'nonce-"))
         ?.slice("'nonce-".length, -1)!;
 
-      const elements = $("link[rel=\"preload\"][as=\"script\"]");
+      const elements = $('link[rel="preload"][as="script"]');
       for (const element of elements) {
         expect(element.attribs.nonce).to.eql(nonce);
       }
     });
   });
 
-  it('html snapshot with filtered nonce', async () => {
-    expect(cheerio.load(await response.text())).toMatchSnapshot()
-  })
+  it("html snapshot with filtered nonce", async () => {
+    expect(cheerio.load(await response.text())).toMatchSnapshot();
+  });
 });
 
 describe("POST /", function () {
@@ -141,11 +155,11 @@ describe("POST /", function () {
       method: "POST",
     });
   });
-  
+
   it("__csp-nonce edge function was not invoked", () => {
     expect(response.headers.has("x-debug-csp-nonce")).to.eql(false);
   });
-  
+
   it("responds with original content-security-policy header", () => {
     expect(response.headers.get("content-security-policy")).to.eql(
       "img-src 'self' blob: data:; script-src 'sha256-/Cb4VxgL2aVP0MVDvbP0DgEOUv+MeNQmZX4yXHkn/c0='"
@@ -158,66 +172,67 @@ describe("GET /main.css", function () {
   beforeAll(async () => {
     response = await fetch(new URL(`/main.css`, baseURL));
   });
-  
+
   it("__csp-nonce edge function was not invoked", () => {
     expect(response.headers.has("x-debug-csp-nonce")).to.eql(false);
   });
-  
+
   it("responds with a 200 status", () => {
     expect(response.status).to.eql(200);
   });
-  
+
   it("responds without a content-security-policy header", () => {
     expect(response.headers.has("content-security-policy")).to.eql(false);
   });
 });
-
 
 describe("Origin response has non-html content-type", () => {
   let response: Response;
   beforeAll(async () => {
     response = await fetch(new URL(`/hello`, baseURL));
   });
-  
+
   it("__csp-nonce edge function was invoked", () => {
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
   });
-  
+
   it("responds with a 200 status", () => {
     expect(response.status).to.eql(200);
   });
-  
+
   it("responds without a content-security-policy header", () => {
     expect(response.headers.has("content-security-policy")).to.eql(false);
   });
-  
+
   describe("body", () => {
     it("has has the original response body unmodified", async () => {
-      const actual = Buffer.from(await response.arrayBuffer())
-      const expected = await readFile(new URL("../../site/hello", import.meta.url))
-      expect(actual).to.eql(expected)
+      const actual = Buffer.from(await response.arrayBuffer());
+      const expected = await readFile(
+        new URL("../../site/hello", import.meta.url)
+      );
+      expect(actual).to.eql(expected);
     });
   });
-})
+});
 
 describe("Origin response has html content-type but binary contents in body", () => {
   let response: Response;
   beforeAll(async () => {
     response = await fetch(new URL(`/i-am-really-a-png-file.html`, baseURL));
   });
-  
+
   it("__csp-nonce edge function was invoked", () => {
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
   });
-  
+
   it("responds with a 200 status", () => {
     expect(response.status).to.eql(200);
   });
-  
+
   it("responds with a content-security-policy header", () => {
     expect(response.headers.has("content-security-policy")).to.eql(true);
   });
-  
+
   describe("content-security-policy header", () => {
     let csp: Map<string, string[]>;
     beforeAll(async () => {
@@ -225,7 +240,7 @@ describe("Origin response has html content-type but binary contents in body", ()
         response.headers.get("content-security-policy") || ""
       );
     });
-    
+
     it("has correct img-src directive", () => {
       expect(csp.get("img-src")).to.eql(["'self'", "blob:", "data:"]);
     });
@@ -249,34 +264,36 @@ describe("Origin response has html content-type but binary contents in body", ()
       ]);
     });
   });
-  
+
   describe("body", () => {
     it("has has the original response body unmodified", async () => {
-      const actual = Buffer.from(await response.arrayBuffer())
-      const expected = await readFile(new URL("../../site/i-am-really-a-png-file.html", import.meta.url))
-      expect(actual).to.eql(expected)
+      const actual = Buffer.from(await response.arrayBuffer());
+      const expected = await readFile(
+        new URL("../../site/i-am-really-a-png-file.html", import.meta.url)
+      );
+      expect(actual).to.eql(expected);
     });
   });
-})
+});
 
 describe("Origin response has html content-type but non-html text contents in body", () => {
   let response: Response;
   beforeAll(async () => {
     response = await fetch(new URL(`/i-am-really-a-json-file.html`, baseURL));
   }, 15000);
-  
+
   it("__csp-nonce edge function was invoked", () => {
     expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
   });
-  
+
   it("responds with a 200 status", () => {
     expect(response.status).to.eql(200);
   });
-  
+
   it("responds with a content-security-policy header", () => {
     expect(response.headers.has("content-security-policy")).to.eql(true);
   });
-  
+
   describe("content-security-policy header", () => {
     let csp: Map<string, string[]>;
     beforeAll(async () => {
@@ -284,7 +301,7 @@ describe("Origin response has html content-type but non-html text contents in bo
         response.headers.get("content-security-policy") || ""
       );
     });
-    
+
     it("has correct img-src directive", () => {
       expect(csp.get("img-src")).to.eql(["'self'", "blob:", "data:"]);
     });
@@ -308,15 +325,17 @@ describe("Origin response has html content-type but non-html text contents in bo
       ]);
     });
   });
-  
+
   describe("body", () => {
     it("has has the original response body unmodified", async () => {
-      const actual = Buffer.from(await response.arrayBuffer())
-      const expected = await readFile(new URL("../../site/i-am-really-a-json-file.html", import.meta.url))
-      expect(actual).to.eql(expected)
+      const actual = Buffer.from(await response.arrayBuffer());
+      const expected = await readFile(
+        new URL("../../site/i-am-really-a-json-file.html", import.meta.url)
+      );
+      expect(actual).to.eql(expected);
     });
   });
-})
+});
 
 // Really large HTML file
 describe("GET /whatwg", function () {
@@ -393,14 +412,14 @@ describe("GET /whatwg", function () {
         ?.find((v) => v.startsWith("'nonce-"))
         ?.slice("'nonce-".length, -1)!;
 
-      const elements = $("link[rel=\"preload\"][as=\"script\"]");
+      const elements = $('link[rel="preload"][as="script"]');
       for (const element of elements) {
         expect(element.attribs.nonce).to.eql(nonce);
       }
     });
   });
 
-  it('html snapshot with filtered nonce', async () => {
-    expect(cheerio.load(await response.text())).toMatchSnapshot()
-  })
+  it("html snapshot with filtered nonce", async () => {
+    expect(cheerio.load(await response.text())).toMatchSnapshot();
+  });
 });
