@@ -3,6 +3,9 @@ import type { Config, Context } from "netlify:edge";
 // @ts-ignore cannot find module
 import { csp } from "https://deno.land/x/csp_nonce_html_transformer@v2.2.2/src/index-embedded-wasm.ts";
 
+// Using `import ... with ...` syntax directly fails due to the node 18 type-checking we're running on this file,
+// but this syntax works fine in deno 1.46.3 and 2.x which is what the functions are bundled and run with.
+// We're able to sneak by the node syntax issues by using this `await import(...)` syntax instead of a direct import statement.
 // @ts-ignore top-level await
 const { default: inputs } = await import("./__csp-nonce-inputs.json", {
   // @ts-ignore 'with' syntax
