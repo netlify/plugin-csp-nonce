@@ -1,7 +1,6 @@
-/* eslint-disable */
-// @ts-ignore
+// @ts-ignore cannot find module
 import type { Config, Context } from "netlify:edge";
-// @ts-ignore
+// @ts-ignore cannot find module
 import { csp } from "https://deno.land/x/csp_nonce_html_transformer@v2.2.2/src/index-embedded-wasm.ts";
 
 // @ts-ignore top-level await
@@ -25,7 +24,7 @@ type Params = {
 };
 const params = inputs as Params;
 params.reportUri = params.reportUri || "/.netlify/functions/__csp-violations";
-// @ts-ignore
+// @ts-ignore Netlify
 params.distribution = Netlify.env.get("CSP_NONCE_DISTRIBUTION");
 
 params.strictDynamic = params.strictDynamic ?? true;
