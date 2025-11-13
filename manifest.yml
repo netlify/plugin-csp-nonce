@@ -23,3 +23,9 @@ inputs:
   - name: self
     description: When true, restricts the execution of scripts to those that originate from the same origin (protocol, domain, and port) as the document.
     default: true
+  - name: https
+    description: When true, allows execution of scripts from https origins.
+    default: false
+  - name: http
+    description: When true, allows execution of scripts from http origins.
+    default: false
