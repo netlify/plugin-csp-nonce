@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.5.2...v1.6.0) (2025-11-13)
+
+
+### Features
+
+* add http https origins options ([#139](https://github.com/netlify/plugin-csp-nonce/issues/139)) ([29e8f31](https://github.com/netlify/plugin-csp-nonce/commit/29e8f31fe1cca0b5b6ae0c4131ec0eed62df1c4e))
+
 ## [1.5.2](https://github.com/netlify/plugin-csp-nonce/compare/v1.5.1...v1.5.2) (2025-08-06)
 
 
