@@ -1,7 +1,7 @@
 // @ts-ignore cannot find module
 import type { Config, Context } from "netlify:edge";
 // @ts-ignore cannot find module
-import { csp } from "https://deno.land/x/csp_nonce_html_transformer@v2.3.0/src/index-embedded-wasm.ts";
+import { csp } from "https://deno.land/x/csp_nonce_html_transformer@v2.4.0/src/index-embedded-wasm.ts";
 
 // Using `import ... with ...` syntax directly fails due to the node 18 type-checking we're running on this file,
 // but this syntax works fine in deno 1.46.3 and 2.x which is what the functions are bundled and run with.
