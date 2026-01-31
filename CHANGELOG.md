@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.6.0...v1.6.1) (2026-01-30)
+
+
+### Bug Fixes
+
+* update csp_nonce_html_transformer to v2.4.0 ([#142](https://github.com/netlify/plugin-csp-nonce/issues/142)) ([91728b5](https://github.com/netlify/plugin-csp-nonce/commit/91728b5dea7b1d1dc9ba0409eee42b312090fe8c))
+
 ## [1.6.0](https://github.com/netlify/plugin-csp-nonce/compare/v1.5.2...v1.6.0) (2025-11-13)
 
 
