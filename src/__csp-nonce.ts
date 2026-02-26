@@ -33,8 +33,8 @@ params.distribution = Netlify.env.get("CSP_NONCE_DISTRIBUTION");
 params.strictDynamic = params.strictDynamic ?? true;
 params.unsafeInline = params.unsafeInline ?? true;
 params.self = params.self ?? true;
-params.https = true;
-params.http = true;
+params.https = params.https ?? true;
+params.http = params.http ?? true;
 
 const handler = async (_request: Request, context: Context) => {
   try {
