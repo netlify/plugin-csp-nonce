@@ -25,7 +25,7 @@ inputs:
     default: true
   - name: https
     description: When true, allows execution of scripts from https origins.
-    default: false
+    default: true
   - name: http
     description: When true, allows execution of scripts from http origins.
-    default: false
+    default: true
