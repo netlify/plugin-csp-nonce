@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/netlify/plugin-csp-nonce/compare/v1.6.1...v1.6.2) (2026-02-26)
+
+
+### Bug Fixes
+
+* allow http and https to be optional ([#144](https://github.com/netlify/plugin-csp-nonce/issues/144)) ([7ef189b](https://github.com/netlify/plugin-csp-nonce/commit/7ef189b2b05624450c4a4f124f7e68323e826200))
+
 ## [1.6.1](https://github.com/netlify/plugin-csp-nonce/compare/v1.6.0...v1.6.1) (2026-01-30)
 
 
