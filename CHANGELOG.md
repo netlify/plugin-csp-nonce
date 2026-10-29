@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.3](https://github.com/netlify/plugin-csp-nonce/compare/v1.6.2...v1.6.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* migrate __csp-violations to the modern Functions API ([#146](https://github.com/netlify/plugin-csp-nonce/issues/146)) ([b2ed280](https://github.com/netlify/plugin-csp-nonce/commit/b2ed280eb72f30343692bd337ce25731ab2f245b))
+
 ## [1.6.2](https://github.com/netlify/plugin-csp-nonce/compare/v1.6.1...v1.6.2) (2026-02-26)
 
 
