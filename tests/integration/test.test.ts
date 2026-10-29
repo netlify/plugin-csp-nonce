@@ -423,3 +423,31 @@ describe("GET /whatwg", function () {
     expect(cheerio.load(await response.text())).toMatchSnapshot();
   });
 });
+
+describe("POST /.netlify/functions/__csp-violations", function () {
+  it("accepts a CSP violation report", async () => {
+    const response = await fetch(
+      new URL(`/.netlify/functions/__csp-violations`, baseURL),
+      {
+        method: "POST",
+        headers: { "content-type": "application/csp-report" },
+        body: JSON.stringify({
+          "csp-report": {
+            "document-uri": `${baseURL}/`,
+            "violated-directive": "script-src",
+            "blocked-uri": "https://example.com/evil.js",
+          },
+        }),
+      }
+    );
+    expect(response.status).to.eql(200);
+  });
+
+  it("tolerates a malformed body", async () => {
+    const response = await fetch(
+      new URL(`/.netlify/functions/__csp-violations`, baseURL),
+      { method: "POST", body: "not json" }
+    );
+    expect(response.status).to.eql(200);
+  });
+});
