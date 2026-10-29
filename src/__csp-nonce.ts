@@ -114,6 +114,11 @@ export const config: Config = {
     .concat(params.excludedPath)
     .filter(Boolean),
   handler,
+  header: {
+    'next-router-prefetch': false,
+    'next-router-state-tree': false,
+    rsc: false
+  },
   onError: "bypass",
   method: "GET",
 };
