@@ -186,6 +186,23 @@ describe("GET /main.css", function () {
   });
 });
 
+describe("excluded extensions", function () {
+  // Regression test: a previous `**/*.(ext)` exclusion compiled to a nested quantifier that
+  // backtracks exponentially here, capable of blocking the event loop and *stalling* the JS engine(!).
+  it("invokes the edge function on a deep extensionless path without stalling", async () => {
+    const response = await fetch(
+      new URL(`/access-control/bb-api/api/v1/user`, baseURL),
+      { signal: AbortSignal.timeout(5000) }
+    );
+    expect(response.headers.get("x-debug-csp-nonce")).to.eql("invoked");
+  }, 10000);
+
+  it("does not invoke the edge function for a nested asset", async () => {
+    const response = await fetch(new URL(`/assets/js/main.abc123.js`, baseURL));
+    expect(response.headers.has("x-debug-csp-nonce")).to.eql(false);
+  });
+});
+
 describe("Origin response has non-html content-type", () => {
   let response: Response;
   beforeAll(async () => {
