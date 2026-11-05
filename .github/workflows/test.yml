@@ -27,7 +27,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-      - run: npm install netlify-cli -g
       - run: npm install
       - run: npm test
       - run: HOST='https://deploy-preview-${{ github.event.pull_request.number }}--csp-nonce.netlify.app' npm test
