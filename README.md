@@ -96,7 +96,7 @@ If your HTML does not contain the `nonce` attribute on the `<script>` tags that 
 
 ### Controlling rollout
 
-You may want to gradually rollout the effects of this plugin while you monitor violation reports, without modifying code.
+You may want to gradually roll out the effects of this plugin while you monitor violation reports, without modifying code.
 
 You can ramp up or ramp down the inclusion of the `Content-Security-Policy` header by setting the `CSP_NONCE_DISTRIBUTION` environment variable to a value between `0` and `1`.
 
