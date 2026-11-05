@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.4](https://github.com/netlify/plugin-csp-nonce/compare/v1.6.3...v1.6.4) (2026-11-05)
+
+
+### Bug Fixes
+
+* avoid exponential backtracking in edge function pattern ([#148](https://github.com/netlify/plugin-csp-nonce/issues/148)) ([3cd7fdb](https://github.com/netlify/plugin-csp-nonce/commit/3cd7fdb582e0ce6bfc8dcc188023a36068dc99a2))
+
 ## [1.6.3](https://github.com/netlify/plugin-csp-nonce/compare/v1.6.2...v1.6.3) (2026-10-29)
 
 
