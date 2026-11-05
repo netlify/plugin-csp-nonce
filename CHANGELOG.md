@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.5](https://github.com/netlify/plugin-csp-nonce/compare/v1.6.4...v1.6.5) (2026-11-05)
+
+
+### Bug Fixes
+
+* no-op to trigger release with NPM Trusted Publishing ([c658afe](https://github.com/netlify/plugin-csp-nonce/commit/c658afe59d34cbfc4984df142ffedc0a94bf1c98))
+
 ## [1.6.4](https://github.com/netlify/plugin-csp-nonce/compare/v1.6.3...v1.6.4) (2026-11-05)
 
 
