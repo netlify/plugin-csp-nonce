@@ -18,15 +18,15 @@
   ],
   "devDependencies": {
     "@types/node": "^22.9.0",
-    "cheerio": "^1.0.0",
+    "cheerio": "^1.2.0",
     "content-security-policy-parser": "^0.6.0",
-    "execa": "^9.5.1",
-    "get-port": "^7.1.0",
+    "execa": "^10.2.1",
+    "get-port": "^7.2.0",
     "netlify-cli": "^27.16.2",
     "prettier": "^2.8.8",
-    "strip-ansi": "^7.1.0",
-    "typescript": "^5.2.2",
-    "vitest": "^2.1.4"
+    "strip-ansi": "^7.2.0",
+    "typescript": "^6.0.3",
+    "vitest": "^5.1.0"
   },
   "bugs": {
     "url": "https://github.com/netlify/plugin-csp-nonce/issues"
@@ -37,7 +37,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@netlify/build-info": "^8.0.0"
+    "@netlify/build-info": "^9.0.4"
   },
   "allowScripts": {
     "netlify-cli@27.16.2": true,
