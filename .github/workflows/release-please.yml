@@ -5,6 +5,8 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  # npm trusted publishing (OIDC)
+  id-token: write
 name: release-please
 jobs:
   release-please:
@@ -30,6 +32,4 @@ jobs:
       - run: npm ci
         if: ${{ steps.release.outputs.release_created }}
       - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}
