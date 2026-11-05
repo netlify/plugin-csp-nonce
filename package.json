@@ -37,5 +37,11 @@
   },
   "dependencies": {
     "@netlify/build-info": "^8.0.0"
+  },
+  "allowScripts": {
+    "netlify-cli@27.16.2": true,
+    "esbuild": false,
+    "fsevents": false,
+    "unix-dgram": false
   }
 }
